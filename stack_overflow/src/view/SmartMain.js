@@ -1,7 +1,7 @@
 import question from "../model/question";
 import Main from "./Main";
 import React, { Component } from "react";
-import mainPresenter from "../presenter/MainPresenter";
+import MainPresenter from "../presenter/MainPresenter";
 
 const mapMainStateToComponentState = mainState => ({
     questions: mainState.questions
@@ -23,10 +23,10 @@ export default class SmartMain extends Component {
         return (
             <Main
                 questions={this.state.questions}
-                onAskQuestion={mainPresenter.onAskQuestion}
-                onSearchQuestionTitle={mainPresenter.onSearchQuestionTitle}
-                onSearchQuestionTag={mainPresenter.onSearchQuestionTag}
-                onAnswer={mainPresenter.onAnswer}
+                onAskQuestion={MainPresenter.onAskQuestion}
+                onSearchQuestionTitle={MainPresenter.onSearchQuestionTitle}
+                onSearchQuestionTag={MainPresenter.onSearchQuestionTag}
+                onAnswer={MainPresenter.onAnswer}
             />
         );
     }

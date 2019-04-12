@@ -31,7 +31,7 @@ const QuestionsTable = ({ questions, onAnswer }) => (
                             <td> {question.creationDate} </td>
                             <td> {question.voteCount} </td>
                             <td> {tag.toString(question.tags)} </td>
-                            <td> <button onclick={() => onAnswer(index)}> Answer </button> </td>
+                            <td><button onClick={() => onAnswer(index)}> Answer </button></td>
                             
                         </tr>
                     ))
