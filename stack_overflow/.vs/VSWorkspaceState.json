@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\model",
+    "\\src\\presenter",
+    "\\src\\view",
+    "\\src\\view\\question"
+  ],
+  "SelectedNode": "\\src\\view\\question\\QuestionSearchByTitle.js",
+  "PreviewInSolutionExplorer": false
+}
