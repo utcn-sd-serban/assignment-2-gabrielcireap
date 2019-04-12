@@ -24,7 +24,7 @@ export default class SmartQuestionSearchByTag extends Component {
         return (
 
             <div>
-                <h2> Questions </h2>
+                <h2> Questions - Search by Tag </h2>
                 <QuestionSearchByTag
                     title={this.state.title}
                     onChange={QuestionSearchTagPresenter.onChange}

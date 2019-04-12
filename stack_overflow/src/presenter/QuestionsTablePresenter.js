@@ -25,6 +25,10 @@ class QuestionTablePresenter {
     onChange(property, value) {
         question.changeNewQuestionProperty(property, value);
     }
+
+    onAnswer(id) {
+        window.location.assign("#/answer/" + id);
+    }
 }
 
 function createTags(tags) {

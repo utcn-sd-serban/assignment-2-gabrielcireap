@@ -1,7 +1,8 @@
 import React from "react";
 import QuestionsTable from "./question/QuestionsTable";
+import MainPresenter from "../presenter/MainPresenter";
 
-const Main = ({ questions, onAskQuestion, onSearchQuestionTitle, onSearchQuestionTag }) => (
+const Main = ({ questions, onAskQuestion, onSearchQuestionTitle, onSearchQuestionTag, onAnswer }) => (
     <div>
         <h2> Assignment 2 </h2>
         <button onClick={onAskQuestion}> Ask Question </button>
@@ -11,6 +12,7 @@ const Main = ({ questions, onAskQuestion, onSearchQuestionTitle, onSearchQuestio
         <h1> Questions </h1>
         <QuestionsTable
             questions={questions}
+            onAnswer={onAnswer}
         />
     </div>
 );

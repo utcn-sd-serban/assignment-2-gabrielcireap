@@ -87,7 +87,6 @@ class Question extends EventEmitter{
 
     searchByTag(tag) {
         this.state.searchedQuestions = [];
-
         for (let i = 0; i < this.state.questions.length; i++) {
             for (let j = 0; j < this.state.questions[i].tags.length; j++) {
                 if (this.state.questions[i].tags[j].name === tag) {
@@ -95,8 +94,12 @@ class Question extends EventEmitter{
                 }
             }
         }
-
+        
         this.emit("change", this.state);
+    }
+
+    toString(question) {
+        return "Question(" + question.title + ", " + question.text + ", " + user.toString(question.user) + ")";
     }
 }
 

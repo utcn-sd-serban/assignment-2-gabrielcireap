@@ -6,13 +6,9 @@ import QuestionsTablePresenter from "../../presenter/QuestionsTablePresenter";
 
 const mapQuestionStateToComponentState = questionState => ({
     questions: questionState.questions,
-    searchedQuestions: questionState.searchedQuestions,
-    id: questionState.newQuestion.id,
     title: questionState.newQuestion.title,
     text: questionState.newQuestion.text,
-    voteCount: questionState.newQuestion.voteCount,
-    creationDate: questionState.newQuestion.creationDate,
-    tags: questionState.newQuestion.tags,
+    tags: questionState.newQuestion.tags
 });
 
 export default class SmartQuestionsTable extends Component {
@@ -38,6 +34,7 @@ export default class SmartQuestionsTable extends Component {
                     tags={this.state.tags}
                     onChange={QuestionsTablePresenter.onChange}
                     onCreate={QuestionsTablePresenter.onCreate}
+                    onAnswer={QuestionsTablePresenter.onAnswer}
                 />
 
                 <QuestionsTable

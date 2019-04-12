@@ -11,6 +11,11 @@ class MainPresenter {
     onSearchQuestionTag() {
         window.location.assign("#/search-tag");
     }
+
+    onAnswer(id) {
+        debugger;
+        window.location.assign("#/answer/" + id);
+    }
 }
 
 const mainPresenter = new MainPresenter();

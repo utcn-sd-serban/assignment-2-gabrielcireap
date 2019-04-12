@@ -3,7 +3,7 @@ import React from "react";
 import user from "../../model/User";
 import tag from "../../model/Tag";
 
-const QuestionsTable = ({ questions }) => (
+const QuestionsTable = ({ questions, onAnswer }) => (
     <div>
         <table border="1">
             <thead>
@@ -15,6 +15,9 @@ const QuestionsTable = ({ questions }) => (
                     <th> Creation Date </th>
                     <th> Vote Count </th>
                     <th> Tags </th>
+                    <th>  </th>
+                    <th>  </th>
+                    <th>  </th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +31,8 @@ const QuestionsTable = ({ questions }) => (
                             <td> {question.creationDate} </td>
                             <td> {question.voteCount} </td>
                             <td> {tag.toString(question.tags)} </td>
+                            <td> <button onclick={() => onAnswer(index)}> Answer </button> </td>
+                            
                         </tr>
                     ))
                 }

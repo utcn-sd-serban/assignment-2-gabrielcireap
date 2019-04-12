@@ -1,9 +1,9 @@
 import question from "../model/question";
 
-class QuestionSearchPresenter {
+class QuestionSearchTagPresenter {
 
     onSearch() {
-        question.searchByTag(question.state.newQuestion.tags);
+        question.searchByTag(question.state.newQuestion.title);
         question.changeNewQuestionProperty("title", "");
     }
 
@@ -12,5 +12,5 @@ class QuestionSearchPresenter {
     }
 }
 
-const questionSearchPresenter = new QuestionSearchPresenter();
-export default questionSearchPresenter;
+const questionSearchTagPresenter = new QuestionSearchTagPresenter();
+export default questionSearchTagPresenter;
