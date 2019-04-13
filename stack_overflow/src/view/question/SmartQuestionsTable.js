@@ -34,11 +34,11 @@ export default class SmartQuestionsTable extends Component {
                     tags={this.state.tags}
                     onChange={QuestionsTablePresenter.onChange}
                     onCreate={QuestionsTablePresenter.onCreate}
-                    onAnswer={QuestionsTablePresenter.onAnswer}
                 />
 
                 <QuestionsTable
                     questions={this.state.questions}
+                    onAnswer={QuestionsTablePresenter.onAnswer}
                 />
             </div>
         );

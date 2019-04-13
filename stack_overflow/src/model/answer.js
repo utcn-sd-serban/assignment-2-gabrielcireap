@@ -58,6 +58,21 @@ class Answer extends EventEmitter {
         this.emit("change", this.state);
     }
 
+    editAnswer(answer) {
+        for (let i = 0; i < this.state.answers.length; i++) {
+            if (answer.id === this.state.answers[i].id) {
+                this.state.answers[i].text = answer.text;
+            }
+        }
+        this.emit("change", this.state);
+    }
+
+    deleteAnswer(answer) {
+        let index = this.state.answers.indexOf(answer);
+        this.state.answers.splice(index, 1);
+        this.emit("change", this.state);
+    }
+
     changeNewAnswerProperty(property, value) {
         this.state = {
             ...this.state,
@@ -67,6 +82,14 @@ class Answer extends EventEmitter {
             }
         };
         this.emit("change", this.state);
+    }
+
+    findByQuestion(question) {
+        return this.state.answers.filter(answer => answer.question === question);
+    }
+
+    findById(id) {
+        return this.state.answers.filter(answer => answer.id === id)[0];
     }
 
     sort() {

@@ -10,6 +10,10 @@ class QuestionSearchTagPresenter {
     onChange(property, value) {
         question.changeNewQuestionProperty(property, value);
     }
+
+    onAnswer(id) {
+        window.location.assign("#/answer/" + id);
+    }
 }
 
 const questionSearchTagPresenter = new QuestionSearchTagPresenter();

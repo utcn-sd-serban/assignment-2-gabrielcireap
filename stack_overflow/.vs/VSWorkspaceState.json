@@ -5,8 +5,9 @@
     "\\src\\model",
     "\\src\\presenter",
     "\\src\\view",
+    "\\src\\view\\answer",
     "\\src\\view\\question"
   ],
-  "SelectedNode": "\\src\\view\\question\\QuestionSearchByTitle.js",
+  "SelectedNode": "\\src\\model\\User.js",
   "PreviewInSolutionExplorer": false
 }

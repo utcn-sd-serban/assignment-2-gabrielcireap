@@ -33,6 +33,7 @@ export default class SmartQuestionsSearchByTitle extends Component {
 
                 <QuestionsTable
                     questions={this.state.searchedQuestions}
+                    onAnswer={QuestionSearchPresenter.onAnswer}
                 />
             </div>
         );

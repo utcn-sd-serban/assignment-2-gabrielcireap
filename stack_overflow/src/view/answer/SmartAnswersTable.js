@@ -6,12 +6,13 @@ import AnswersTablePresenter from "../../presenter/AnswersTablePresenter";
 import question from "../../model/question";
 
 const mapAnswerStateToComponentState = (answerState, props) => ({
-    answers: answerState.answers,
     selectedQuestion: question.state.questions[props.match.params.id],
+    answers: answer.findByQuestion(question.state.questions[props.match.params.id]),
     text: answerState.newAnswer.text
 });
 
 export default class SmartAnswersTable extends Component {
+
     constructor(props) {
         super(props);
         this.state = mapAnswerStateToComponentState(answer.state, props);
@@ -24,8 +25,7 @@ export default class SmartAnswersTable extends Component {
             this.setState(mapAnswerStateToComponentState(answer.state, this.props));
         }
     }
-
-
+    
     componentWillUnmount() {
         answer.removeListener("change", this.listener);
     }
@@ -44,6 +44,8 @@ export default class SmartAnswersTable extends Component {
 
                 <AnswersTable
                     answers={this.state.answers}
+                    onEditAnswer={AnswersTablePresenter.onEditAnswer}
+                    onDeleteAnswer={AnswersTablePresenter.onDeleteAnswer}
                 />
             </div>
         );

@@ -13,7 +13,6 @@ class MainPresenter {
     }
 
     onAnswer(id) {
-        debugger;
         window.location.assign("#/answer/" + id);
     }
 }
