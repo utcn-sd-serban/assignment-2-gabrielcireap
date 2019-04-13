@@ -34,7 +34,7 @@ class QuestionTablePresenter {
     onUpvoteQuestion(questionId) {
         let currentQuestion = question.findById(questionId);
 
-        if (currentQuestion.user.username === user.state.loggedUser.username && question.user.password === user.state.loggedUser.password) {
+        if (currentQuestion.user.username === user.state.loggedUser.username && currentQuestion.user.password === user.state.loggedUser.password) {
             throw "Cannot vote your own question!";
         } else {
             let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
@@ -46,11 +46,13 @@ class QuestionTablePresenter {
                     currentVote[0].isUpvote = true;
                     vote.update(currentVote[0]);
                     question.upvote(currentQuestion, 2);
+                    user.updateScore(currentQuestion.user, 7);
                 }
 
             } else {
                 vote.addVote(currentQuestion, undefined, user.state.loggedUser, true);
                 question.upvote(currentQuestion, 1);
+                user.updateScore(currentQuestion.user, 5);
             }
         }
     }
@@ -58,7 +60,7 @@ class QuestionTablePresenter {
     onDownvoteQuestion(questionId) {
         let currentQuestion = question.findById(questionId);
 
-        if (currentQuestion.user.username === user.state.loggedUser.username && question.user.password === user.state.loggedUser.password) {
+        if (currentQuestion.user.username === user.state.loggedUser.username && currentQuestion.user.password === user.state.loggedUser.password) {
             throw "Cannot vote your own question!";
         } else {
             let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
@@ -70,11 +72,13 @@ class QuestionTablePresenter {
                     currentVote[0].isUpvote = false;
                     vote.update(currentVote[0]);
                     question.downvote(currentQuestion, 2);
+                    user.updateScore(currentQuestion.user, -7);
                 }
 
             } else {
                 vote.addVote(currentQuestion, undefined, user.state.loggedUser, false);
                 question.downvote(currentQuestion, 1);
+                user.updateScore(currentQuestion.user, -2);
             }
         }
     }

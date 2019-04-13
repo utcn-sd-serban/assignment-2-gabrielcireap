@@ -8,25 +8,7 @@ class Vote extends EventEmitter {
     constructor() {
         super();
         this.state = {
-            votes: [{
-                id: 1,
-                question: question.state.questions[0],
-                answer: undefined,
-                user: user.state.users[0],
-                isUpvote: false,
-            }, {
-                id: 2,
-                question: undefined,
-                answer: answer.state.answers[0],
-                user: user.state.users[0],
-                isUpvote: false,
-            }, {
-                id: 3,
-                question: question.state.questions[1],
-                answer: undefined,
-                user: user.state.users[0],
-                isUpvote: true,
-            }],
+            votes: [],
             currentIndex: 4
         };
     }

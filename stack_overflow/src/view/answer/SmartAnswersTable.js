@@ -7,7 +7,7 @@ import question from "../../model/question";
 
 const mapAnswerStateToComponentState = (answerState, props) => ({
     selectedQuestion: question.state.questions[props.match.params.id],
-    answers: answer.findByQuestion(question.state.questions[props.match.params.id]),
+    answers: answer.sort(answer.findByQuestion(question.state.questions[props.match.params.id])),
     text: answerState.newAnswer.text
 });
 

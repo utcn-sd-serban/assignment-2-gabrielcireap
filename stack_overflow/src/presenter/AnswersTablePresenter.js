@@ -60,11 +60,14 @@ class AnswersTablePresenter {
                     currentVote[0].isUpvote = true;
                     vote.update(currentVote[0]);
                     answer.upvote(currentAnswer, 2);
+                    user.updateScore(currentAnswer.user, 12);
+                    user.updateScore(user.state.loggedUser, 1);
                 }
 
             } else {
                 vote.addVote(undefined, currentAnswer, user.state.loggedUser, true);
                 answer.upvote(currentAnswer, 1);
+                user.updateScore(currentAnswer.user, 10);
             }
         }
     }
@@ -84,11 +87,15 @@ class AnswersTablePresenter {
                     currentVote[0].isUpvote = false;
                     vote.update(currentVote[0]);
                     answer.downvote(currentAnswer, 2);
+                    user.updateScore(currentAnswer.user, -12);
+                    user.updateScore(user.state.loggedUser, -1);
                 }
 
             } else {
                 vote.addVote(undefined, currentAnswer, user.state.loggedUser, false);
                 answer.downvote(currentAnswer, 1);
+                user.updateScore(currentAnswer.user, -2);
+                user.updateScore(user.state.loggedUser, -1);
             }
         }
     }

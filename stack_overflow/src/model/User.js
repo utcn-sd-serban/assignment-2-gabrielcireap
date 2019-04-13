@@ -40,15 +40,17 @@ class User extends EventEmitter{
                 score: 0,
                 isAdmin: false,
                 isBanned: false,
-            }
+            },
+
+            currentIndex: 3
         };
     }
 
-    addUser(id, username, password, email, score, isAdmin, isBanned) {
+    addUser(username, password, email, score, isAdmin, isBanned) {
         this.state = {
             ...this.state,
             users: this.state.users.concat([{
-                id: id,
+                id: this.state.currentIndex,
                 username: username,
                 password: password,
                 email: email,
@@ -57,6 +59,7 @@ class User extends EventEmitter{
                 isBanned: isBanned
             }])
         };
+        this.state.currentIndex = this.state.currentIndex + 1;
         this.emit("change", this.state);
     }
 
@@ -71,8 +74,20 @@ class User extends EventEmitter{
         this.emit("change", this.state);
     }
 
+    updateScore(user, scores) {
+        let index = this.state.users.indexOf(user);
+        if (index == -1) {      //logged user branch
+            let logUser = this.state.users.filter(u => u.username === user.username && u.password === user.password)[0];
+            logUser.score = logUser.score + scores;
+        } else {
+            this.state.users[index].score = this.state.users[index].score + scores;
+        }
+        
+        this.emit("change", this.state);
+    }
+
     toString(user) {
-        return "User(" + user.username + ", " + user.score + ", " + user.isAdmin + ")";
+        return "User(" + user.username + ", " + user.score + ", " + (user.isAdmin  === true ? "admin" : "non-admin") + ")";
     }
 }
 

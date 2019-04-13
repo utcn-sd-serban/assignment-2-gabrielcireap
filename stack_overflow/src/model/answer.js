@@ -104,9 +104,9 @@ class Answer extends EventEmitter {
         this.emit("change", this.state);
     }
 
-    sort() {
-        this.state.answers.sort((a, b) => (a.voteCount > b.voteCount) ? 1 : ((b.voteCount > a.voteCount) ? -1 : 0));
-        this.emit("change", this.state);
+    sort(answers) {
+        answers.sort((a, b) => (a.voteCount < b.voteCount) ? 1 : ((b.voteCount < a.voteCount) ? -1 : 0));
+        return answers;
     }
 }
 
