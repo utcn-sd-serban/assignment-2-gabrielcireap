@@ -46,6 +46,8 @@ export default class SmartAnswersTable extends Component {
                     answers={this.state.answers}
                     onEditAnswer={AnswersTablePresenter.onEditAnswer}
                     onDeleteAnswer={AnswersTablePresenter.onDeleteAnswer}
+                    onUpvoteAnswer={AnswersTablePresenter.onUpvoteAnswer}
+                    onDownvoteAnswer={AnswersTablePresenter.onDownvoteAnswer}
                 />
             </div>
         );

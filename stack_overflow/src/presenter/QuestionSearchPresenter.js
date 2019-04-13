@@ -1,4 +1,5 @@
 import question from "../model/question";
+import QuestionsTablePresenter from "./QuestionsTablePresenter";
 
 class QuestionSearchPresenter {
 
@@ -13,6 +14,14 @@ class QuestionSearchPresenter {
 
     onAnswer(id) {
         window.location.assign("#/answer/" + id);
+    }
+
+    onUpvoteQuestion(id) {
+        QuestionsTablePresenter.onUpvoteQuestion(id);
+    }
+
+    onDownvoteQuestion(id) {
+        QuestionsTablePresenter.onDownvoteQuestion(id);
     }
 }
 

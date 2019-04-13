@@ -34,6 +34,8 @@ export default class SmartQuestionsSearchByTitle extends Component {
                 <QuestionsTable
                     questions={this.state.searchedQuestions}
                     onAnswer={QuestionSearchPresenter.onAnswer}
+                    onUpvoteQuestion={QuestionSearchPresenter.onUpvoteQuestion}
+                    onDownvoteQuestion={QuestionSearchPresenter.onDownvoteQuestion}
                 />
             </div>
         );

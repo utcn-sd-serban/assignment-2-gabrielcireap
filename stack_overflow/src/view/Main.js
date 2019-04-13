@@ -2,7 +2,7 @@ import React from "react";
 import QuestionsTable from "./question/QuestionsTable";
 import MainPresenter from "../presenter/MainPresenter";
 
-const Main = ({ questions, onAskQuestion, onSearchQuestionTitle, onSearchQuestionTag, onAnswer }) => (
+const Main = ({ questions, onAskQuestion, onSearchQuestionTitle, onSearchQuestionTag, onAnswer, onUpvoteQuestion, onDownvoteQuestion }) => (
     <div>
         <h2> Assignment 2 </h2>
         <button onClick={onAskQuestion}> Ask Question </button>
@@ -13,6 +13,8 @@ const Main = ({ questions, onAskQuestion, onSearchQuestionTitle, onSearchQuestio
         <QuestionsTable
             questions={questions}
             onAnswer={onAnswer}
+            onUpvoteQuestion={onUpvoteQuestion}
+            onDownvoteQuestion={onDownvoteQuestion}
         />
     </div>
 );

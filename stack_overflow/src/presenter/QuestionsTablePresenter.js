@@ -1,6 +1,7 @@
 import question from "../model/question";
 import user from "../model/User";
 import tag from "../model/Tag";
+import vote from "../model/Vote";
 
 class QuestionTablePresenter {
     
@@ -28,6 +29,54 @@ class QuestionTablePresenter {
 
     onAnswer(id) {
         window.location.assign("#/answer/" + id);
+    }
+
+    onUpvoteQuestion(questionId) {
+        let currentQuestion = question.findById(questionId);
+
+        if (currentQuestion.user.username === user.state.loggedUser.username && question.user.password === user.state.loggedUser.password) {
+            throw "Cannot vote your own question!";
+        } else {
+            let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
+            if (currentVote.length > 0) {
+
+                if (currentVote[0].isUpvote === true) {
+                    throw "You cannot vote twice!";
+                } else {
+                    currentVote[0].isUpvote = true;
+                    vote.update(currentVote[0]);
+                    question.upvote(currentQuestion, 2);
+                }
+
+            } else {
+                vote.addVote(currentQuestion, undefined, user.state.loggedUser, true);
+                question.upvote(currentQuestion, 1);
+            }
+        }
+    }
+
+    onDownvoteQuestion(questionId) {
+        let currentQuestion = question.findById(questionId);
+
+        if (currentQuestion.user.username === user.state.loggedUser.username && question.user.password === user.state.loggedUser.password) {
+            throw "Cannot vote your own question!";
+        } else {
+            let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
+            if (currentVote.length > 0) {
+
+                if (currentVote[0].isUpvote === false) {
+                    throw "You cannot vote twice!";
+                } else {
+                    currentVote[0].isUpvote = false;
+                    vote.update(currentVote[0]);
+                    question.downvote(currentQuestion, 2);
+                }
+
+            } else {
+                vote.addVote(currentQuestion, undefined, user.state.loggedUser, false);
+                question.downvote(currentQuestion, 1);
+            }
+        }
     }
 }
 

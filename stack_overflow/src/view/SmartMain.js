@@ -27,6 +27,8 @@ export default class SmartMain extends Component {
                 onSearchQuestionTitle={MainPresenter.onSearchQuestionTitle}
                 onSearchQuestionTag={MainPresenter.onSearchQuestionTag}
                 onAnswer={MainPresenter.onAnswer}
+                onUpvoteQuestion={MainPresenter.onUpvoteQuestion}
+                onDownvoteQuestion={MainPresenter.onDownvoteQuestion}
             />
         );
     }

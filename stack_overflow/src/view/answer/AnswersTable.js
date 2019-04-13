@@ -4,7 +4,7 @@ import user from "../../model/User";
 import question from "../../model/question";
 import answer from "../../model/answer";
 
-const AnswersTable = ({ answers, onEditAnswer, onDeleteAnswer }) => (
+const AnswersTable = ({ answers, onEditAnswer, onDeleteAnswer, onUpvoteAnswer, onDownvoteAnswer }) => (
     <div>
         <table border="1">
             <thead>
@@ -33,6 +33,8 @@ const AnswersTable = ({ answers, onEditAnswer, onDeleteAnswer }) => (
                             <td> {answer.voteCount} </td>
                             <td><button onClick={() => onEditAnswer(answer.id)}> Edit </button></td>
                             <td><button onClick={() => onDeleteAnswer(answer.id)}> Delete </button></td>
+                            <td><button onClick={() => onUpvoteAnswer(answer.id)}> Upvote </button></td>
+                            <td><button onClick={() => onDownvoteAnswer(answer.id)}> Downvote </button></td>
                         </tr>
                     ))
                 }

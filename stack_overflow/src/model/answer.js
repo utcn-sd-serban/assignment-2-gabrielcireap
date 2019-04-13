@@ -92,6 +92,18 @@ class Answer extends EventEmitter {
         return this.state.answers.filter(answer => answer.id === id)[0];
     }
 
+    upvote(answer, count) {
+        let index = this.state.answers.indexOf(answer);
+        this.state.answers[index].voteCount = this.state.answers[index].voteCount + count;
+        this.emit("change", this.state);
+    }
+
+    downvote(answer, count) {
+        let index = this.state.answers.indexOf(answer);
+        this.state.answers[index].voteCount = this.state.answers[index].voteCount - count;
+        this.emit("change", this.state);
+    }
+
     sort() {
         this.state.answers.sort((a, b) => (a.voteCount > b.voteCount) ? 1 : ((b.voteCount > a.voteCount) ? -1 : 0));
         this.emit("change", this.state);

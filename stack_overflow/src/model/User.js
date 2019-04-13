@@ -33,12 +33,12 @@ class User extends EventEmitter{
             },
 
             loggedUser: {
-                id: 1,
-                username: "user1",
-                password: "pass1",
-                email: "email1",
+                id: 2,
+                username: "user2",
+                password: "pass2",
+                email: "email2",
                 score: 0,
-                isAdmin: true,
+                isAdmin: false,
                 isBanned: false,
             }
         };

@@ -1,3 +1,5 @@
+import QuestionsTablePresenter from "./QuestionsTablePresenter";
+
 class MainPresenter {
 
     onAskQuestion() {
@@ -14,6 +16,14 @@ class MainPresenter {
 
     onAnswer(id) {
         window.location.assign("#/answer/" + id);
+    }
+
+    onUpvoteQuestion(id) {
+        QuestionsTablePresenter.onUpvoteQuestion(id);
+    }
+
+    onDownvoteQuestion(id) {
+        QuestionsTablePresenter.onDownvoteQuestion(id);
     }
 }
 

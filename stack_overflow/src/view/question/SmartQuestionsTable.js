@@ -39,6 +39,8 @@ export default class SmartQuestionsTable extends Component {
                 <QuestionsTable
                     questions={this.state.questions}
                     onAnswer={QuestionsTablePresenter.onAnswer}
+                    onUpvoteQuestion={QuestionsTablePresenter.onUpvoteQuestion}
+                    onDownvoteQuestion={QuestionsTablePresenter.onDownvoteQuestion}
                 />
             </div>
         );

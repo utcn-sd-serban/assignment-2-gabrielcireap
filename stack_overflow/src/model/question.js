@@ -2,7 +2,7 @@ import user from "./User";
 import tag from "./Tag";
 import { EventEmitter } from "events";
 
-class Question extends EventEmitter{
+class Question extends EventEmitter {
 
     constructor() {
         super();
@@ -47,7 +47,7 @@ class Question extends EventEmitter{
         };
     }
 
-    addQuestion(user, title, text, creationDate, voteCount, tags){
+    addQuestion(user, title, text, creationDate, voteCount, tags) {
         this.state = {
             ...this.state,
             questions: this.state.questions.concat([{
@@ -79,7 +79,7 @@ class Question extends EventEmitter{
         this.state.questions.sort((a, b) => (a.creationDate.getTime() > b.creationDate.getTime()) ? 1 : ((b.creationDate.getTime() > a.creationDate.getTime()) ? -1 : 0));
         this.emit("change", this.state);
     }
-    
+
     searchByTitle(title) {
         this.state.searchedQuestions = this.state.questions.filter(question => question.title.includes(title));
         this.emit("change", this.state);
@@ -94,12 +94,28 @@ class Question extends EventEmitter{
                 }
             }
         }
-        
+
         this.emit("change", this.state);
+    }
+
+    findById(id) {
+        return this.state.questions.filter(question => question.id === id)[0];
     }
 
     toString(question) {
         return "Question(" + question.title + ", " + question.text + ", " + user.toString(question.user) + ")";
+    }
+
+    upvote(question, count) {
+        let index = this.state.questions.indexOf(question);
+        this.state.questions[index].voteCount = this.state.questions[index].voteCount + count;
+        this.emit("change", this.state);
+    }
+
+    downvote(question, count) {
+        let index = this.state.questions.indexOf(question);
+        this.state.questions[index].voteCount = this.state.questions[index].voteCount - count;
+        this.emit("change", this.state);
     }
 }
 
