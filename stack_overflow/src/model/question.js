@@ -11,24 +11,24 @@ class Question extends EventEmitter {
                 id: 1,
                 user: user.state.users[0],
                 title: "title1",
-                text: "",
-                creationDate: new Date(Date.now()).toLocaleDateString('en-GB'),
+                text: "text1",
+                creationDate: new Date(Date.now()).toLocaleDateString(),
                 voteCount: 0,
                 tags: [tag.state.tags[0]]
             }, {
                 id: 2,
                 user: user.state.users[0],
-                title: "ceva titllu",
-                text: "",
-                creationDate: new Date(Date.now()).toLocaleDateString('en-GB'),
+                title: "ceva titlu",
+                text: "ceva text",
+                creationDate: new Date(Date.now()).toLocaleDateString(),
                 voteCount: 0,
                 tags: [tag.state.tags[0], tag.state.tags[1]]
             }, {
                 id: 3,
                 user: user.state.users[0],
                 title: "title 2",
-                text: "",
-                creationDate: new Date(Date.now()).toLocaleDateString('en-GB'),
+                text: "question 3 text",
+                creationDate: new Date(Date.now()).toLocaleDateString(),
                 voteCount: 0,
                 tags: [tag.state.tags[1], tag.state.tags[2]]
             }],
@@ -76,7 +76,7 @@ class Question extends EventEmitter {
     }
 
     sort(questions) {
-        questions.sort((a, b) => (a.creationDate.getTime() > b.creationDate.getTime()) ? 1 : ((b.creationDate.getTime() > a.creationDate.getTime()) ? -1 : 0));
+        questions.sort((a, b) => (a.creationDate > b.creationDate) ? 1 : ((b.creationDate > a.creationDate) ? -1 : 0));
         return questions;
     }
 

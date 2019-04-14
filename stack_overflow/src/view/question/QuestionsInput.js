@@ -2,24 +2,30 @@
 import React from "react";
 
 const QuestionsInput = ({ title, text, tags, onChange, onCreate, onEditQuestion }) => (
-    <div>
+    <div className="container" className="has-background-light">
 
-        <label> Title: </label>
-        <input value={title}
-            onChange={e => onChange("title", e.target.value)} />
-        <br />
+        <div className="column is-one-quarter">
+            <label class="label"> Title </label>
+            <input value={title} onChange={e => onChange("title", e.target.value)} class="input" type="text" placeholder="Text input" />
+        </div>
 
-        <label> Text: </label>
-        <input value={text}
-            onChange={e => onChange("text", e.target.value)} />
-        <br />
+        <div className="column is-one-quarter">
+            <label class="label"> Text </label>
+            <input value={text} onChange={e => onChange("text", e.target.value)} class="input" type="text" placeholder="Text input" />
+        </div>
 
-        <label> Tags/Id: </label>
-        <input value={tags}
-            onChange={e => onChange("tags", e.target.value)} />
+        <div className="column is-one-quarter">
+            <label class="label"> Tags/Id </label>
+            <input value={tags} onChange={e => onChange("tags", e.target.value)} class="input" type="text" placeholder="Text input" />
+        </div>
+        
+        <div class="control">
+            <button class="button is-link" onClick={onCreate}> Create </button>
+        </div>
         <br />
-        <button onClick={onCreate}> Create </button>
-        <button onClick={onEditQuestion}> Edit </button>
+        <div class="control">
+            <button class="button is-link" onClick={onEditQuestion}> Edit </button>
+        </div>
     </div>
 );
 

@@ -23,8 +23,11 @@ export default class SmartQuestionSearchByTag extends Component {
     render() {
         return (
 
-            <div>
-                <h2> Questions - Search by Tag </h2>
+            <div className="container" className="has-background-light">
+                <h2 className="title">
+                    Search Questions by Tag
+                </h2>
+
                 <QuestionSearchByTag
                     title={this.state.title}
                     onChange={QuestionSearchTagPresenter.onChange}

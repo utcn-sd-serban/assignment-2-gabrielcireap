@@ -26,8 +26,12 @@ export default class SmartQuestionsTable extends Component {
     render() {
         return (
 
-            <div>
-                <h2> Questions </h2>
+            <div className="has-background-light" className="container">
+
+                <h2 className="title">
+                    Ask Questions
+                </h2>
+
                 <QuestionsInput
                     title={this.state.title}
                     text={this.state.text}

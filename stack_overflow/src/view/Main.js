@@ -4,14 +4,20 @@ import SmartUsersTable from "./user/SmartUsersTable";
 import UsersTable from "./user/UsersTable";
 
 const Main = ({ questions, users, loggedUser, onAskQuestion, onSearchQuestionTitle, onSearchQuestionTag, onAnswer, onDeleteQuestion, onUpvoteQuestion, onDownvoteQuestion, onBan }) => (
-    <div>
-        <h2> Assignment 2 </h2>
-        <button onClick={onAskQuestion}> Ask Question </button>
-        <button onClick={onSearchQuestionTitle}> Search Questions by Title </button>
-        <button onClick={onSearchQuestionTag}> Search Questions by Tag </button>
+    <div className="container" className="has-background-light">
+        <h1 className="title">
+            Assignment 2
+        </h1>
+
+        <button className="button is-light" onClick={onAskQuestion}> Ask Question </button>
+        <button className="button is-light" onClick={onSearchQuestionTitle}> Search Questions by Title </button>
+        <button className="button is-light" onClick={onSearchQuestionTag}> Search Questions by Tag </button>
+        <br />
         <br />
 
-        <h1> Questions </h1>
+        <h2 className="subtitle">
+            Questions
+        </h2>
         <QuestionsTable
             questions={questions}
             onAnswer={onAnswer}
@@ -24,7 +30,9 @@ const Main = ({ questions, users, loggedUser, onAskQuestion, onSearchQuestionTit
         {
             loggedUser.isAdmin === true ? (
                 <div>
-                    <h1> Users </h1>
+                    <h2 className="subtitle">
+                        Users
+                    </h2>
                     <UsersTable
                         users={users}
                         onBan={onBan}

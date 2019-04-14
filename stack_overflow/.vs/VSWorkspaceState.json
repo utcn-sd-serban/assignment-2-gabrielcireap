@@ -9,6 +9,6 @@
     "\\src\\view\\question",
     "\\src\\view\\user"
   ],
-  "SelectedNode": "\\src\\presenter\\QuestionsTablePresenter.js",
+  "SelectedNode": "\\src\\view\\question\\SmartQuestionSearchByTag.js",
   "PreviewInSolutionExplorer": false
 }

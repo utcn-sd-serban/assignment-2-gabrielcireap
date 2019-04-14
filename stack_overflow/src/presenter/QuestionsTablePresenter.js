@@ -13,7 +13,7 @@ class QuestionTablePresenter {
             user.state.loggedUser,
             question.state.newQuestion.title,
             question.state.newQuestion.text,
-            new Date(Date.now()).toLocaleDateString('en-GB'),
+            new Date(Date.now()).toLocaleDateString(),
             0,
             tags
         );
