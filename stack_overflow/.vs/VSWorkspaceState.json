@@ -6,8 +6,9 @@
     "\\src\\presenter",
     "\\src\\view",
     "\\src\\view\\answer",
-    "\\src\\view\\question"
+    "\\src\\view\\question",
+    "\\src\\view\\user"
   ],
-  "SelectedNode": "\\src\\model\\User.js",
+  "SelectedNode": "\\src\\presenter\\QuestionsTablePresenter.js",
   "PreviewInSolutionExplorer": false
 }

@@ -12,7 +12,7 @@ class Question extends EventEmitter {
                 user: user.state.users[0],
                 title: "title1",
                 text: "",
-                creationDate: "12/22/1997",
+                creationDate: new Date(Date.now()).toLocaleDateString('en-GB'),
                 voteCount: 0,
                 tags: [tag.state.tags[0]]
             }, {
@@ -20,7 +20,7 @@ class Question extends EventEmitter {
                 user: user.state.users[0],
                 title: "ceva titllu",
                 text: "",
-                creationDate: "12/22/1997",
+                creationDate: new Date(Date.now()).toLocaleDateString('en-GB'),
                 voteCount: 0,
                 tags: [tag.state.tags[0], tag.state.tags[1]]
             }, {
@@ -28,7 +28,7 @@ class Question extends EventEmitter {
                 user: user.state.users[0],
                 title: "title 2",
                 text: "",
-                creationDate: "12/22/1997",
+                creationDate: new Date(Date.now()).toLocaleDateString('en-GB'),
                 voteCount: 0,
                 tags: [tag.state.tags[1], tag.state.tags[2]]
             }],
@@ -61,7 +61,7 @@ class Question extends EventEmitter {
             }]),
             currentIndex: this.state.currentIndex + 1
         };
-        this.emit("change", this.state);
+        this.emit("changeQuestion", this.state);
     }
 
     changeNewQuestionProperty(property, value) {
@@ -72,17 +72,34 @@ class Question extends EventEmitter {
                 [property]: value
             }
         };
-        this.emit("change", this.state);
+        this.emit("changeQuestion", this.state);
     }
 
-    sort() {
-        this.state.questions.sort((a, b) => (a.creationDate.getTime() > b.creationDate.getTime()) ? 1 : ((b.creationDate.getTime() > a.creationDate.getTime()) ? -1 : 0));
-        this.emit("change", this.state);
+    sort(questions) {
+        questions.sort((a, b) => (a.creationDate.getTime() > b.creationDate.getTime()) ? 1 : ((b.creationDate.getTime() > a.creationDate.getTime()) ? -1 : 0));
+        return questions;
+    }
+
+    delete(question) {
+        let index = this.state.questions.indexOf(question);
+        this.state.questions.splice(index, 1);
+        this.emit("changeQuestion", this.state);
+    }
+
+    edit(question) {
+        for (let i = 0; i < this.state.questions.length; i++) {
+            if (this.state.questions[i].id == question.id) {
+                this.state.questions[i].text = question.text;
+                this.state.questions[i].title = question.title;
+                break;
+            }
+        }
+        this.emit("changeQuestion", this.state);
     }
 
     searchByTitle(title) {
         this.state.searchedQuestions = this.state.questions.filter(question => question.title.includes(title));
-        this.emit("change", this.state);
+        this.emit("changeQuestion", this.state);
     }
 
     searchByTag(tag) {
@@ -95,11 +112,11 @@ class Question extends EventEmitter {
             }
         }
 
-        this.emit("change", this.state);
+        this.emit("changeQuestion", this.state);
     }
 
     findById(id) {
-        return this.state.questions.filter(question => question.id === id)[0];
+        return this.state.questions.filter(question => question.id == id)[0];
     }
 
     toString(question) {
@@ -109,13 +126,13 @@ class Question extends EventEmitter {
     upvote(question, count) {
         let index = this.state.questions.indexOf(question);
         this.state.questions[index].voteCount = this.state.questions[index].voteCount + count;
-        this.emit("change", this.state);
+        this.emit("changeQuestion", this.state);
     }
 
     downvote(question, count) {
         let index = this.state.questions.indexOf(question);
         this.state.questions[index].voteCount = this.state.questions[index].voteCount - count;
-        this.emit("change", this.state);
+        this.emit("changeQuestion", this.state);
     }
 }
 

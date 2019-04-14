@@ -55,7 +55,7 @@ class Answer extends EventEmitter {
             }]),
             currentIndex: this.state.currentIndex + 1
         };
-        this.emit("change", this.state);
+        this.emit("changeAnswer", this.state);
     }
 
     editAnswer(answer) {
@@ -64,13 +64,13 @@ class Answer extends EventEmitter {
                 this.state.answers[i].text = answer.text;
             }
         }
-        this.emit("change", this.state);
+        this.emit("changeAnswer", this.state);
     }
 
     deleteAnswer(answer) {
         let index = this.state.answers.indexOf(answer);
         this.state.answers.splice(index, 1);
-        this.emit("change", this.state);
+        this.emit("changeAnswer", this.state);
     }
 
     changeNewAnswerProperty(property, value) {
@@ -81,7 +81,7 @@ class Answer extends EventEmitter {
                 [property]: value
             }
         };
-        this.emit("change", this.state);
+        this.emit("changeAnswer", this.state);
     }
 
     findByQuestion(question) {
@@ -95,13 +95,13 @@ class Answer extends EventEmitter {
     upvote(answer, count) {
         let index = this.state.answers.indexOf(answer);
         this.state.answers[index].voteCount = this.state.answers[index].voteCount + count;
-        this.emit("change", this.state);
+        this.emit("changeAnswer", this.state);
     }
 
     downvote(answer, count) {
         let index = this.state.answers.indexOf(answer);
         this.state.answers[index].voteCount = this.state.answers[index].voteCount - count;
-        this.emit("change", this.state);
+        this.emit("changeAnswer", this.state);
     }
 
     sort(answers) {

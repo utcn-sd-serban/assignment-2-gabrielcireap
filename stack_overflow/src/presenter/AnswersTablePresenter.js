@@ -27,7 +27,8 @@ class AnswersTablePresenter {
         let currentAnswer = answer.findById(id);
         currentAnswer.text = answer.state.newAnswer.text;
 
-        if (currentAnswer.user.username === user.state.loggedUser.username && currentAnswer.user.password === user.state.loggedUser.password) {
+        if (currentAnswer.user.username === user.state.loggedUser.username && currentAnswer.user.password === user.state.loggedUser.password
+            || user.state.loggedUser.isAdmin === true) {
             answer.editAnswer(currentAnswer);
         } else {
             throw "You are not the author of the answer!";
@@ -38,7 +39,8 @@ class AnswersTablePresenter {
     onDeleteAnswer(id) {
 
         let currentAnswer = answer.findById(id);
-        if (currentAnswer.user.username === user.state.loggedUser.username && currentAnswer.user.password === user.state.loggedUser.password) {
+        if (currentAnswer.user.username === user.state.loggedUser.username && currentAnswer.user.password === user.state.loggedUser.password
+            || user.state.loggedUser.isAdmin === true) {
             answer.deleteAnswer(currentAnswer);
         } else {
             throw "You are not the author of the answer!";

@@ -31,6 +31,36 @@ class QuestionTablePresenter {
         window.location.assign("#/answer/" + id);
     }
 
+    onDeleteQuestion(id) {
+
+        if (user.state.loggedUser.isAdmin === true) {
+            let selectedQuestion = question.findById(id);
+            question.delete(selectedQuestion);
+        } else {
+            throw "Only admins can delete questions!";
+        }
+    }
+
+    onEditQuestion() {
+
+        console.log(user.state.loggedUser);
+        if (user.state.loggedUser.isAdmin === true) {
+            let newQuestion = {
+                id: question.state.newQuestion.tags,
+                title: question.state.newQuestion.title,
+                text: question.state.newQuestion.text
+            };
+
+            question.edit(newQuestion);
+        } else {
+            throw "Only admins can edit questions!";
+        }
+        
+        question.changeNewQuestionProperty("title", "");
+        question.changeNewQuestionProperty("text", "");
+        question.changeNewQuestionProperty("tags", "");
+    }
+
     onUpvoteQuestion(questionId) {
         let currentQuestion = question.findById(questionId);
 

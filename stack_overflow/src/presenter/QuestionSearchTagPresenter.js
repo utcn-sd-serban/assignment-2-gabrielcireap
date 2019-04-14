@@ -16,6 +16,10 @@ class QuestionSearchTagPresenter {
         window.location.assign("#/answer/" + id);
     }
 
+    onDeleteQuestion(id) {
+        QuestionsTablePresenter.onDeleteQuestion(id);
+    }
+
     onUpvoteQuestion(id) {
         QuestionsTablePresenter.onUpvoteQuestion(id);
     }

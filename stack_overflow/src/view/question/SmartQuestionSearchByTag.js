@@ -13,11 +13,11 @@ export default class SmartQuestionSearchByTag extends Component {
         super();
         this.state = mapQuestionStateToComponentState(question.state);
         this.listener = questionState => this.setState(mapQuestionStateToComponentState(questionState));
-        question.addListener("change", this.listener);
+        question.addListener("changeQuestion", this.listener);
     }
 
     componentWillUnmount() {
-        question.removeListener("change", this.listener);
+        question.removeListener("changeQuestion", this.listener);
     }
 
     render() {
@@ -34,6 +34,7 @@ export default class SmartQuestionSearchByTag extends Component {
                 <QuestionsTable
                     questions={this.state.searchedQuestions}
                     onAnswer={QuestionSearchTagPresenter.onAnswer}
+                    onDeleteQuestion={QuestionSearchTagPresenter.onDeleteQuestion}
                     onUpvoteQuestion={QuestionSearchTagPresenter.onUpvoteQuestion}
                     onDownvoteQuestion={QuestionSearchTagPresenter.onDownvoteQuestion}
                 />

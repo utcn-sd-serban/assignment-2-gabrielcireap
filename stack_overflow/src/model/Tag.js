@@ -39,18 +39,7 @@ class Tag extends EventEmitter {
 
         return tag;
     }
-
-    changeNewTagProperty(property, value) {
-        this.state = {
-            ...this.state,
-            newTag: {
-                ...this.state.newTag,
-                [property]: value
-            }
-        };
-        this.emit("change", this.state);
-    }
-
+    
     toString(tag) {
 
         let s = "";

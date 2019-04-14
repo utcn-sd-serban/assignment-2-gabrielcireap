@@ -33,12 +33,12 @@ class User extends EventEmitter{
             },
 
             loggedUser: {
-                id: 2,
-                username: "user2",
-                password: "pass2",
-                email: "email2",
+                id: 1,
+                username: "user1",
+                password: "pass1",
+                email: "email1",
                 score: 0,
-                isAdmin: false,
+                isAdmin: true,
                 isBanned: false,
             },
 
@@ -60,7 +60,7 @@ class User extends EventEmitter{
             }])
         };
         this.state.currentIndex = this.state.currentIndex + 1;
-        this.emit("change", this.state);
+        this.emit("changeUser", this.state);
     }
 
     changeNewUserProperty(property, value) {
@@ -71,7 +71,7 @@ class User extends EventEmitter{
                 [property]: value
             }
         };
-        this.emit("change", this.state);
+        this.emit("changeUser", this.state);
     }
 
     updateScore(user, scores) {
@@ -83,11 +83,26 @@ class User extends EventEmitter{
             this.state.users[index].score = this.state.users[index].score + scores;
         }
         
-        this.emit("change", this.state);
+        this.emit("changeUser", this.state);
+    }
+
+    login(username, password) {
+        return this.state.users.filter(user => user.username === username && user.password === password);
+    }
+
+    findById(id) {
+        return this.state.users.filter(user => user.id === id)[0];
+    }
+
+    ban(user) {
+        let index = this.state.users.indexOf(user);
+        this.state.users[index].isBanned = true;
+        this.emit("changeUser", this.state);
     }
 
     toString(user) {
-        return "User(" + user.username + ", " + user.score + ", " + (user.isAdmin  === true ? "admin" : "non-admin") + ")";
+        return "User(" + user.username + ", " + user.score + ", " + (user.isAdmin === true ? "admin" : "non-admin") +
+                ", " + (user.isBanned === true ? "banned" : "not banned") + ")";
     }
 }
 

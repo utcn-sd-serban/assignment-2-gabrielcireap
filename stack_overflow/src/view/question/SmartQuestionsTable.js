@@ -5,7 +5,7 @@ import QuestionsInput from "./QuestionsInput";
 import QuestionsTablePresenter from "../../presenter/QuestionsTablePresenter";
 
 const mapQuestionStateToComponentState = questionState => ({
-    questions: questionState.questions,
+    questions: question.sort(questionState.questions),
     title: questionState.newQuestion.title,
     text: questionState.newQuestion.text,
     tags: questionState.newQuestion.tags
@@ -16,11 +16,11 @@ export default class SmartQuestionsTable extends Component {
         super();
         this.state = mapQuestionStateToComponentState(question.state);
         this.listener = questionState => this.setState(mapQuestionStateToComponentState(questionState));
-        question.addListener("change", this.listener);
+        question.addListener("changeQuestion", this.listener);
     }
 
     componentWillUnmount() {
-        question.removeListener("change", this.listener);
+        question.removeListener("changeQuestion", this.listener);
     }
 
     render() {
@@ -34,11 +34,13 @@ export default class SmartQuestionsTable extends Component {
                     tags={this.state.tags}
                     onChange={QuestionsTablePresenter.onChange}
                     onCreate={QuestionsTablePresenter.onCreate}
+                    onEditQuestion={QuestionsTablePresenter.onEditQuestion}
                 />
 
                 <QuestionsTable
                     questions={this.state.questions}
                     onAnswer={QuestionsTablePresenter.onAnswer}
+                    onDeleteQuestion={QuestionsTablePresenter.onDeleteQuestion}
                     onUpvoteQuestion={QuestionsTablePresenter.onUpvoteQuestion}
                     onDownvoteQuestion={QuestionsTablePresenter.onDownvoteQuestion}
                 />

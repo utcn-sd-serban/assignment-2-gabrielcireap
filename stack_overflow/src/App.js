@@ -6,12 +6,14 @@ import SmartQuestionSearchByTitle from "./view/question/SmartQuestionSearchByTit
 import SmartQuestionSearchByTag from "./view/question/SmartQuestionSearchByTag";
 import SmartAnswersTable from './view/answer/SmartAnswersTable';
 import SmartMain from "./view/SmartMain";
+import SmartLogin from "./view/user/SmartLogin";
 
 const App = () => (
     <div className="App">
         <HashRouter>
             <Switch>
-                <Route exact={true} component={SmartMain} path="/" />
+                <Route exact={true} component={SmartLogin} path="/" />
+                <Route exact={true} component={SmartMain} path="/index/" />
                 <Route exact={true} component={SmartQuestionsTable} path="/ask" />
                 <Route exact={true} component={SmartQuestionSearchByTitle} path="/search-title" />
                 <Route exact={true} component={SmartQuestionSearchByTag} path="/search-tag" />

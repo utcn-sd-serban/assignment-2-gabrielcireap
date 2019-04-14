@@ -17,7 +17,7 @@ export default class SmartAnswersTable extends Component {
         super(props);
         this.state = mapAnswerStateToComponentState(answer.state, props);
         this.listener = answerState => this.setState(mapAnswerStateToComponentState(answerState, this.props));
-        answer.addListener("change", this.listener);
+        answer.addListener("changeAnswer", this.listener);
     }
 
     componentDidUpdate(prev) {
@@ -27,7 +27,7 @@ export default class SmartAnswersTable extends Component {
     }
     
     componentWillUnmount() {
-        answer.removeListener("change", this.listener);
+        answer.removeListener("changeAnswer", this.listener);
     }
 
     render() {

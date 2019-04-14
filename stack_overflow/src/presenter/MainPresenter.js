@@ -1,4 +1,5 @@
 import QuestionsTablePresenter from "./QuestionsTablePresenter";
+import user from "../model/User";
 
 class MainPresenter {
 
@@ -18,12 +19,21 @@ class MainPresenter {
         window.location.assign("#/answer/" + id);
     }
 
+    onDeleteQuestion(id) {
+        QuestionsTablePresenter.onDeleteQuestion(id);
+    }
+
     onUpvoteQuestion(id) {
         QuestionsTablePresenter.onUpvoteQuestion(id);
     }
 
     onDownvoteQuestion(id) {
         QuestionsTablePresenter.onDownvoteQuestion(id);
+    }
+
+    onBan(userId) {
+        let selectedUser = user.findById(userId);
+        user.ban(selectedUser);
     }
 }
 
