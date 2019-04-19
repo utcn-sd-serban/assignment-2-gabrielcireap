@@ -6,7 +6,7 @@ import Login from "./Login";
 const mapUserStateToComponentState = userState => ({
     username: userState.newUser.username,
     password: userState.newUser.password,
-    email: userState.newUser.login
+    email: userState.newUser.email
 });
 
 export default class SmartLoginTable extends Component {
@@ -26,7 +26,9 @@ export default class SmartLoginTable extends Component {
         return (
 
             <div>
-                <h2> Login </h2>
+                <h2 className="title">
+                    Login
+                </h2>
                 <Login
                     username={this.state.username}
                     password={this.state.password}

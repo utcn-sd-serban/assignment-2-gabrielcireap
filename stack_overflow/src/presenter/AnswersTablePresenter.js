@@ -31,7 +31,7 @@ class AnswersTablePresenter {
             || user.state.loggedUser.isAdmin === true) {
             answer.editAnswer(currentAnswer);
         } else {
-            throw "You are not the author of the answer!";
+            window.alert("You are neither the author nor an admin!");
         }
         answer.changeNewAnswerProperty("text", "");
     }
@@ -43,7 +43,7 @@ class AnswersTablePresenter {
             || user.state.loggedUser.isAdmin === true) {
             answer.deleteAnswer(currentAnswer);
         } else {
-            throw "You are not the author of the answer!";
+            window.alert("You are neither the author nor the admin!");
         }
     }
 
@@ -51,25 +51,25 @@ class AnswersTablePresenter {
         let currentAnswer = answer.findById(answerId);
 
         if (currentAnswer.user.username === user.state.loggedUser.username && currentAnswer.user.password === user.state.loggedUser.password) {
-            throw "Cannot vote your own question!";
+            window.alert("Cannot vote your own question!");
         } else {
             let currentVote = vote.findByAnswerId(currentAnswer.id, user.state.loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === true) {
-                    throw "You cannot vote twice!";
+                    window.alert("You cannot vote twice!");
                 } else {
                     currentVote[0].isUpvote = true;
                     vote.update(currentVote[0]);
-                    answer.upvote(currentAnswer, 2);
                     user.updateScore(currentAnswer.user, 12);
                     user.updateScore(user.state.loggedUser, 1);
+                    answer.upvote(currentAnswer, 2);
                 }
 
             } else {
                 vote.addVote(undefined, currentAnswer, user.state.loggedUser, true);
-                answer.upvote(currentAnswer, 1);
                 user.updateScore(currentAnswer.user, 10);
+                answer.upvote(currentAnswer, 1);
             }
         }
     }
@@ -78,26 +78,26 @@ class AnswersTablePresenter {
         let currentAnswer = answer.findById(answerId);
 
         if (currentAnswer.user.username === user.state.loggedUser.username && currentAnswer.user.password === user.state.loggedUser.password) {
-            throw "Cannot vote your own question!";
+            window.alert("Cannot vote your own question!");
         } else {
             let currentVote = vote.findByAnswerId(currentAnswer.id, user.state.loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === false) {
-                    throw "You cannot vote twice!";
+                    window.alert("You cannot vote twice!");
                 } else {
                     currentVote[0].isUpvote = false;
                     vote.update(currentVote[0]);
-                    answer.downvote(currentAnswer, 2);
                     user.updateScore(currentAnswer.user, -12);
                     user.updateScore(user.state.loggedUser, -1);
+                    answer.downvote(currentAnswer, 2);
                 }
 
             } else {
                 vote.addVote(undefined, currentAnswer, user.state.loggedUser, false);
-                answer.downvote(currentAnswer, 1);
                 user.updateScore(currentAnswer.user, -2);
                 user.updateScore(user.state.loggedUser, -1);
+                answer.downvote(currentAnswer, 1);
             }
         }
     }

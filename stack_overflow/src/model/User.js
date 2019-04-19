@@ -33,13 +33,13 @@ class User extends EventEmitter{
             },
 
             loggedUser: {
-                id: 1,
-                username: "user1",
-                password: "pass1",
-                email: "email1",
-                score: 0,
-                isAdmin: true,
-                isBanned: false,
+                id: "",
+                username: "",
+                password: "",
+                email: "",
+                score: "",
+                isAdmin: "",
+                isBanned: "",
             },
 
             currentIndex: 3
@@ -57,9 +57,9 @@ class User extends EventEmitter{
                 score: score,
                 isAdmin: isAdmin,
                 isBanned: isBanned
-            }])
+            }]),
+            currentIndex: this.state.currentIndex + 1
         };
-        this.state.currentIndex = this.state.currentIndex + 1;
         this.emit("changeUser", this.state);
     }
 
@@ -75,13 +75,20 @@ class User extends EventEmitter{
     }
 
     updateScore(user, scores) {
-        let index = this.state.users.indexOf(user);
-        if (index == -1) {      //logged user branch
-            let logUser = this.state.users.filter(u => u.username === user.username && u.password === user.password)[0];
-            logUser.score = logUser.score + scores;
-        } else {
-            this.state.users[index].score = this.state.users[index].score + scores;
-        }
+        
+        let oldUser = this.state.users.filter(u => u.id == user.id);
+        let index = this.state.users.indexOf(oldUser[0]);
+        let users = this.state.users.concat([]);
+       
+        users[index] = {
+            ...this.state.users[index],
+            score: this.state.users[index].score + scores
+        };
+
+        this.state = {
+            ...this.state, 
+            users: users
+        };
         
         this.emit("changeUser", this.state);
     }
@@ -96,7 +103,18 @@ class User extends EventEmitter{
 
     ban(user) {
         let index = this.state.users.indexOf(user);
-        this.state.users[index].isBanned = true;
+        let users = this.state.users.concat([]);
+
+        users[index] = {
+            ...this.state.users[index],
+            isBanned: true
+        };
+
+        this.state = {
+            ...this.state,
+            users: users
+        }
+
         this.emit("changeUser", this.state);
     }
 

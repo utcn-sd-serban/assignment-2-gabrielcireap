@@ -7,3 +7,9 @@ it('renders without crashing', () => {
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
+
+/*
+it('renders welcome message', () => {
+    const { getByText } = render(<App />);
+    expect(getByText('Welcome to React')).toBeInTheDocument();
+});*/

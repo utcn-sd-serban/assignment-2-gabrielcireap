@@ -34,7 +34,9 @@ export default class SmartAnswersTable extends Component {
         return (
 
             <div>
-                <h2> Answers </h2>
+                <h2 className="title">
+                    Answers
+                </h2>
                 <AnswersInput
                     text={this.state.text}
                     currentQuestion={this.state.selectedQuestion}

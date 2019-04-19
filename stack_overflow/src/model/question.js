@@ -82,35 +82,59 @@ class Question extends EventEmitter {
 
     delete(question) {
         let index = this.state.questions.indexOf(question);
-        this.state.questions.splice(index, 1);
+        let questions = this.state.questions.concat([]);
+        questions.splice(index, 1);
+
+        this.state = {
+            ...this.state,
+            questions: questions
+        };
+        
         this.emit("changeQuestion", this.state);
     }
 
     edit(question) {
-        for (let i = 0; i < this.state.questions.length; i++) {
-            if (this.state.questions[i].id == question.id) {
-                this.state.questions[i].text = question.text;
-                this.state.questions[i].title = question.title;
-                break;
-            }
-        }
+        let oldQuestion = this.state.questions.filter(q => q.id == question.id);
+        let index = this.state.questions.indexOf(oldQuestion[0]);
+        let questions = this.state.questions.concat([]);
+        questions[index] = {
+            ...this.state.questions[index],
+            title: question.title,
+            text: question.text
+        };
+        
+        this.state = {
+            ...this.state,
+            questions: questions
+        };
+        
         this.emit("changeQuestion", this.state);
     }
 
     searchByTitle(title) {
-        this.state.searchedQuestions = this.state.questions.filter(question => question.title.includes(title));
+        let searchedQuestions = this.state.questions.filter(question => question.title.includes(title));
+        this.state = {
+            ...this.state, 
+            searchedQuestions: searchedQuestions
+        };
+
         this.emit("changeQuestion", this.state);
     }
 
     searchByTag(tag) {
-        this.state.searchedQuestions = [];
+        let searchedQuestions = [];
         for (let i = 0; i < this.state.questions.length; i++) {
             for (let j = 0; j < this.state.questions[i].tags.length; j++) {
                 if (this.state.questions[i].tags[j].name === tag) {
-                    this.state.searchedQuestions.push(this.state.questions[i]);
+                    searchedQuestions.push(this.state.questions[i]);
                 }
             }
         }
+
+        this.state = {
+            ...this.state,
+            searchedQuestions: searchedQuestions
+        };
 
         this.emit("changeQuestion", this.state);
     }
@@ -125,13 +149,59 @@ class Question extends EventEmitter {
 
     upvote(question, count) {
         let index = this.state.questions.indexOf(question);
-        this.state.questions[index].voteCount = this.state.questions[index].voteCount + count;
+        let questions = this.state.questions.concat([]);
+        
+        for (let i = 0; i < questions.length; i++) {
+
+            let questionUser = user.state.users.filter(u => questions[i].user.id === u.id)[0];
+            if (i != index) {
+                questions[i] = {
+                    ...this.state.questions[i],
+                    user: questionUser
+                };
+            } else {
+                questions[index] = {
+                    ...this.state.questions[index],
+                    user: questionUser,
+                    voteCount: this.state.questions[index].voteCount + count
+                };
+            }
+        }
+
+        this.state = {
+            ...this.state,
+            questions
+        };
+
         this.emit("changeQuestion", this.state);
     }
 
-    downvote(question, count) {
+    downvote(question, count, score) {
         let index = this.state.questions.indexOf(question);
-        this.state.questions[index].voteCount = this.state.questions[index].voteCount - count;
+        let questions = this.state.questions.concat([]);
+
+        for (let i = 0; i < questions.length; i++) {
+
+            let questionUser = user.state.users.filter(u => questions[i].user.id === u.id)[0];
+            if (i != index) {
+                questions[i] = {
+                    ...this.state.questions[i],
+                    user: questionUser
+                };
+            } else {
+                questions[index] = {
+                    ...this.state.questions[index],
+                    user: questionUser,
+                    voteCount: this.state.questions[index].voteCount - count
+                };
+            }
+        }
+
+        this.state = {
+            ...this.state,
+            questions
+        };
+
         this.emit("changeQuestion", this.state);
     }
 }

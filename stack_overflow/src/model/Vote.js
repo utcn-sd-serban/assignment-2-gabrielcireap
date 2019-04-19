@@ -32,8 +32,16 @@ class Vote extends EventEmitter {
     }
 
     update(vote) {
-        let index = this.state.votes.indexOf(vote);
-        this.state.votes[index] = vote;
+        let oldVote = this.state.votes.filter(v => v.id == vote.id);
+        let index = this.state.votes.indexOf(oldVote);
+        let votes = this.state.votes.concat([]);
+        votes[index] = vote;
+
+        this.state = {
+            ...this.state,
+            votes: votes
+        };
+        
         this.emit("change", this.state);
     }
 

@@ -21,11 +21,9 @@ const QuestionsInput = ({ title, text, tags, onChange, onCreate, onEditQuestion 
         
         <div class="control">
             <button class="button is-link" onClick={onCreate}> Create </button>
-        </div>
-        <br />
-        <div class="control">
             <button class="button is-link" onClick={onEditQuestion}> Edit </button>
         </div>
+        <br />
     </div>
 );
 

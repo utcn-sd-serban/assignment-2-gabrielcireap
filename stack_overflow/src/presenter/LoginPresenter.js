@@ -7,13 +7,13 @@ class LoginPresenter {
         if (currentUser.length > 0) {
 
             if (currentUser[0].isBanned === true) {
-                throw "User has been banned!";
+                window.alert("User has been banned!");
             } else {
                 user.state.loggedUser = currentUser[0];
                 window.location.assign("#/index");
             }
         } else {
-            throw "Account does not exist!";
+            window.alert("Account does not exist!");
         }
 
         
@@ -26,7 +26,7 @@ class LoginPresenter {
 
         let currentUser = user.login(user.state.newUser.username, user.state.newUser.password);
         if (currentUser.length > 0) {
-            throw "User already exists!";
+            window.alert("User already exists!");
         } else {
             user.addUser(user.state.newUser.username, user.state.newUser.password, user.state.newUser.email, 0, false, false);
         }

@@ -59,17 +59,30 @@ class Answer extends EventEmitter {
     }
 
     editAnswer(answer) {
-        for (let i = 0; i < this.state.answers.length; i++) {
-            if (answer.id === this.state.answers[i].id) {
-                this.state.answers[i].text = answer.text;
-            }
+        let oldAnswer = this.state.answers.filter(a => a.id === answer.id)[0];
+        let index = this.state.answers.indexOf(oldAnswer);
+        let answers = this.state.answers.concat([]);
+        answers[index] = {
+            ...this.state.answers[index],
+            text: answer.text
+        }
+
+        this.state = {
+            ...this.state,
+            answers
         }
         this.emit("changeAnswer", this.state);
     }
 
     deleteAnswer(answer) {
         let index = this.state.answers.indexOf(answer);
-        this.state.answers.splice(index, 1);
+        let answers = this.state.answers.concat([]);
+        answers.splice(index, 1);
+
+        this.state = {
+            ...this.state, 
+            answers
+        }
         this.emit("changeAnswer", this.state);
     }
 
@@ -85,7 +98,7 @@ class Answer extends EventEmitter {
     }
 
     findByQuestion(question) {
-        return this.state.answers.filter(answer => answer.question === question);
+        return this.state.answers.filter(answer => answer.question.id === question.id);
     }
 
     findById(id) {
@@ -94,13 +107,31 @@ class Answer extends EventEmitter {
 
     upvote(answer, count) {
         let index = this.state.answers.indexOf(answer);
-        this.state.answers[index].voteCount = this.state.answers[index].voteCount + count;
+        let answers = this.state.answers.concat([]);
+        answers[index] = {
+            ...this.state.answers[index],
+            voteCount: this.state.answers[index].voteCount + count
+        }
+
+        this.state = {
+            ...this.state,
+            answers
+        }
         this.emit("changeAnswer", this.state);
     }
 
     downvote(answer, count) {
         let index = this.state.answers.indexOf(answer);
-        this.state.answers[index].voteCount = this.state.answers[index].voteCount - count;
+        let answers = this.state.answers.concat([]);
+        answers[index] = {
+            ...this.state.answers[index],
+            voteCount: this.state.answers[index].voteCount - count
+        }
+
+        this.state = {
+            ...this.state,
+            answers
+        }
         this.emit("changeAnswer", this.state);
     }
 

@@ -37,7 +37,7 @@ class QuestionTablePresenter {
             let selectedQuestion = question.findById(id);
             question.delete(selectedQuestion);
         } else {
-            throw "Only admins can delete questions!";
+            window.alert("Only admins can delete questions!");
         }
     }
 
@@ -53,7 +53,7 @@ class QuestionTablePresenter {
 
             question.edit(newQuestion);
         } else {
-            throw "Only admins can edit questions!";
+            window.alert("Only admins can edit questions!");
         }
         
         question.changeNewQuestionProperty("title", "");
@@ -65,24 +65,24 @@ class QuestionTablePresenter {
         let currentQuestion = question.findById(questionId);
 
         if (currentQuestion.user.username === user.state.loggedUser.username && currentQuestion.user.password === user.state.loggedUser.password) {
-            throw "Cannot vote your own question!";
+            window.alert("Cannot vote your own question!");
         } else {
             let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === true) {
-                    throw "You cannot vote twice!";
+                    window.alert("You cannot vote twice!");
                 } else {
                     currentVote[0].isUpvote = true;
                     vote.update(currentVote[0]);
-                    question.upvote(currentQuestion, 2);
                     user.updateScore(currentQuestion.user, 7);
+                    question.upvote(currentQuestion, 2);
                 }
 
             } else {
                 vote.addVote(currentQuestion, undefined, user.state.loggedUser, true);
-                question.upvote(currentQuestion, 1);
                 user.updateScore(currentQuestion.user, 5);
+                question.upvote(currentQuestion, 1);
             }
         }
     }
@@ -91,30 +91,34 @@ class QuestionTablePresenter {
         let currentQuestion = question.findById(questionId);
 
         if (currentQuestion.user.username === user.state.loggedUser.username && currentQuestion.user.password === user.state.loggedUser.password) {
-            throw "Cannot vote your own question!";
+            window.alert("Cannot vote your own question!");
         } else {
             let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === false) {
-                    throw "You cannot vote twice!";
+                    window.alert("You cannot vote twice!");
                 } else {
                     currentVote[0].isUpvote = false;
                     vote.update(currentVote[0]);
-                    question.downvote(currentQuestion, 2);
                     user.updateScore(currentQuestion.user, -7);
+                    question.downvote(currentQuestion, 2);
                 }
 
             } else {
                 vote.addVote(currentQuestion, undefined, user.state.loggedUser, false);
-                question.downvote(currentQuestion, 1);
                 user.updateScore(currentQuestion.user, -2);
+                question.downvote(currentQuestion, 1);
             }
         }
     }
 }
 
 function createTags(tags) {
+    if (tags.length === 0) {
+        return [];
+    }
+
     let tagArray = tags.split(",");
     tagArray = tagArray.filter(t => tag.isNew(t) === true);
     tagArray = tagArray.map(t => tag.addTag(t));
