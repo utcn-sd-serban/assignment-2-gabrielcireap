@@ -1,15 +1,19 @@
-import question from "../model/question";
+import store from "../model/store/store";
+import * as questionActions from "../model/question/questionActions";
+import * as questionSelectors from "../model/question/questionSelectors";
 import QuestionsTablePresenter from "./QuestionsTablePresenter";
 
 class QuestionSearchPresenter {
 
     onSearch() {
-        question.searchByTitle(question.state.newQuestion.title);
-        question.changeNewQuestionProperty("title", "");
+        let newQuestion = questionSelectors.getNewQuestion();
+
+        store.dispatch(questionActions.searchByTitle(newQuestion.title));
+        store.dispatch(questionActions.changeNewQuestionProperty("title", ""));
     }
 
     onChange(property, value) {
-        question.changeNewQuestionProperty(property, value);
+        store.dispatch(questionActions.changeNewQuestionProperty(property, value));
     }
 
     onAnswer(id) {

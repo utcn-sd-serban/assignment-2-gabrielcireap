@@ -2,29 +2,38 @@ import question from "../model/question";
 import user from "../model/User";
 import tag from "../model/Tag";
 import vote from "../model/Vote";
+import * as questionSelectors from "../model/question/questionSelectors";
+import * as questionActions from "../model/question/questionActions";
+import * as voteActions from "../model/vote/voteActions";
+import * as voteSelectors from "../model/vote/voteSelectors";
+import { updateScore } from "../model/user/userActions";
+import * as userSelectors from "../model/user/userSelectors";
+
+import store from "../model/store/store";
 
 class QuestionTablePresenter {
     
     onCreate() {
 
-        let tags = createTags(question.state.newQuestion.tags);
+        let newQuestion = questionSelectors.getNewQuestion();
+        let tags = createTags(newQuestion.tags);
 
-        question.addQuestion(
-            user.state.loggedUser,
-            question.state.newQuestion.title,
-            question.state.newQuestion.text,
+        store.dispatch(questionActions.addQuestion(
+            userSelectors.getLoggedUser,
+            newQuestion.title,
+            newQuestion.text,
             new Date(Date.now()).toLocaleDateString(),
             0,
             tags
-        );
+        ));
         
-        question.changeNewQuestionProperty("title", "");
-        question.changeNewQuestionProperty("text", "");
-        question.changeNewQuestionProperty("tags", "");
+        store.dispatch(questionActions.changeNewQuestionProperty("title", ""));
+        store.dispatch(questionActions.changeNewQuestionProperty("text", ""));
+        store.dispatch(questionActions.changeNewQuestionProperty("tags", ""));
     }
 
     onChange(property, value) {
-        question.changeNewQuestionProperty(property, value);
+        store.dispatch(questionActions.changeNewQuestionProperty(property, value));
     }
 
     onAnswer(id) {
@@ -32,10 +41,11 @@ class QuestionTablePresenter {
     }
 
     onDeleteQuestion(id) {
+        let loggedUser = userSelectors.getLoggedUser();
 
-        if (user.state.loggedUser.isAdmin === true) {
-            let selectedQuestion = question.findById(id);
-            question.delete(selectedQuestion);
+        if (loggedUser.isAdmin === true) {
+            let selectedQuestion = questionSelectors.findById(id);
+            store.dispatch(questionActions.deleteQuestion(selectedQuestion));
         } else {
             window.alert("Only admins can delete questions!");
         }
@@ -43,46 +53,48 @@ class QuestionTablePresenter {
 
     onEditQuestion() {
 
-        console.log(user.state.loggedUser);
-        if (user.state.loggedUser.isAdmin === true) {
+        let loggedUser = userSelectors.getLoggedUser();
+        if (loggedUser.isAdmin === true) {
+            let newQuestionFromState = questionSelectors.getNewQuestion();
             let newQuestion = {
-                id: question.state.newQuestion.tags,
-                title: question.state.newQuestion.title,
-                text: question.state.newQuestion.text
+                id: newQuestionFromState.tags,
+                title: newQuestionFromState.title,
+                text: newQuestionFromState.text
             };
 
-            question.edit(newQuestion);
+            store.dispatch(questionActions.edit(newQuestion));
         } else {
             window.alert("Only admins can edit questions!");
         }
         
-        question.changeNewQuestionProperty("title", "");
-        question.changeNewQuestionProperty("text", "");
-        question.changeNewQuestionProperty("tags", "");
+        store.dispatch(questionActions.changeNewQuestionProperty("title", ""));
+        store.dispatch(questionActions.changeNewQuestionProperty("text", ""));
+        store.dispatch(questionActions.changeNewQuestionProperty("tags", ""));
     }
 
     onUpvoteQuestion(questionId) {
-        let currentQuestion = question.findById(questionId);
+        let currentQuestion = questionSelectors.findById(questionId);
+        let loggedUser = userSelectors.getLoggedUser();
 
-        if (currentQuestion.user.username === user.state.loggedUser.username && currentQuestion.user.password === user.state.loggedUser.password) {
+        if (currentQuestion.user.username === loggedUser.username && currentQuestion.user.password === loggedUser.password) {
             window.alert("Cannot vote your own question!");
         } else {
-            let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
+            let currentVote = voteSelectors.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === true) {
                     window.alert("You cannot vote twice!");
                 } else {
                     currentVote[0].isUpvote = true;
-                    vote.update(currentVote[0]);
-                    user.updateScore(currentQuestion.user, 7);
-                    question.upvote(currentQuestion, 2);
+                    store.dispatch(voteActions.update(currentVote[0]));
+                    store.dispatch(updateScore(currentQuestion.user, 7));
+                    store.dispatch(questionActions.upvote(currentQuestion, 2));
                 }
 
             } else {
-                vote.addVote(currentQuestion, undefined, user.state.loggedUser, true);
-                user.updateScore(currentQuestion.user, 5);
-                question.upvote(currentQuestion, 1);
+                store.dispatch(voteActions.addVote(currentQuestion, undefined, user.state.loggedUser, true));
+                store.dispatch(updateScore(currentQuestion.user, 5));
+                store.dispatch(questionActions.upvote(currentQuestion, 1));
             }
         }
     }
@@ -93,22 +105,22 @@ class QuestionTablePresenter {
         if (currentQuestion.user.username === user.state.loggedUser.username && currentQuestion.user.password === user.state.loggedUser.password) {
             window.alert("Cannot vote your own question!");
         } else {
-            let currentVote = vote.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
+            let currentVote = voteSelectors.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === false) {
                     window.alert("You cannot vote twice!");
                 } else {
                     currentVote[0].isUpvote = false;
-                    vote.update(currentVote[0]);
-                    user.updateScore(currentQuestion.user, -7);
-                    question.downvote(currentQuestion, 2);
+                    store.dispatch(voteActions.update(currentVote[0]));
+                    store.dispatch(updateScore(currentQuestion.user, -7));
+                    store.dispatch(questionActions.downvote(currentQuestion, 2));
                 }
 
             } else {
-                vote.addVote(currentQuestion, undefined, user.state.loggedUser, false);
-                user.updateScore(currentQuestion.user, -2);
-                question.downvote(currentQuestion, 1);
+                store.dispatch(voteActions.addVote(currentQuestion, undefined, user.state.loggedUser, false));
+                store.dispatch(updateScore(currentQuestion.user, -2));
+                store.dispatch(questionActions.downvote(currentQuestion, 1));
             }
         }
     }

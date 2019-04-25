@@ -1,23 +1,28 @@
 import React, { Component } from "react";
-import question from "../../model/question";
+import { connect } from "react-redux";
 import QuestionsTable from "./QuestionsTable";
 import QuestionSearchTagPresenter from "../../presenter/QuestionSearchTagPresenter";
 import QuestionSearchByTag from "./QuestionSearchByTitle";
 
-const mapQuestionStateToComponentState = questionState => ({
-    searchedQuestions: questionState.searchedQuestions
+const mapQuestionStateToComponentState = state => ({
+    searchedQuestions: state.questionState.searchedQuestions,
+    title: state.questionState.newQuestion.title
 });
 
-export default class SmartQuestionSearchByTag extends Component {
+function mapDispatchToProps(dispatch) {
+    return {
+        onChange: QuestionSearchTagPresenter.onChange,
+        onSearch: QuestionSearchTagPresenter.onSearch,
+        onAnswer: QuestionSearchTagPresenter.onAnswer,
+        onDeleteQuestion: QuestionSearchTagPresenter.onDeleteQuestion,
+        onUpvoteQuestion: QuestionSearchTagPresenter.onUpvoteQuestion,
+        onDownvoteQuestion: QuestionSearchTagPresenter.onDownvoteQuestion
+    };
+}
+
+class SmartQuestionSearchByTag extends Component {
     constructor() {
         super();
-        this.state = mapQuestionStateToComponentState(question.state);
-        this.listener = questionState => this.setState(mapQuestionStateToComponentState(questionState));
-        question.addListener("changeQuestion", this.listener);
-    }
-
-    componentWillUnmount() {
-        question.removeListener("changeQuestion", this.listener);
     }
 
     render() {
@@ -29,19 +34,21 @@ export default class SmartQuestionSearchByTag extends Component {
                 </h2>
 
                 <QuestionSearchByTag
-                    title={this.state.title}
-                    onChange={QuestionSearchTagPresenter.onChange}
-                    onSearch={QuestionSearchTagPresenter.onSearch}
+                    title={this.props.title}
+                    onChange={this.props.onChange}
+                    onSearch={this.props.onSearch}
                 />
 
                 <QuestionsTable
-                    questions={this.state.searchedQuestions}
-                    onAnswer={QuestionSearchTagPresenter.onAnswer}
-                    onDeleteQuestion={QuestionSearchTagPresenter.onDeleteQuestion}
-                    onUpvoteQuestion={QuestionSearchTagPresenter.onUpvoteQuestion}
-                    onDownvoteQuestion={QuestionSearchTagPresenter.onDownvoteQuestion}
+                    questions={this.props.searchedQuestions}
+                    onAnswer={this.props.onAnswer}
+                    onDeleteQuestion={this.props.onDeleteQuestion}
+                    onUpvoteQuestion={this.props.onUpvoteQuestion}
+                    onDownvoteQuestion={this.props.onDownvoteQuestion}
                 />
             </div>
         );
     }
 }
+
+export default connect(mapQuestionStateToComponentState, mapDispatchToProps)(SmartQuestionSearchByTag);

@@ -1,26 +1,32 @@
 import React, { Component } from "react";
-import question from "../../model/question";
+import { connect } from "react-redux";
 import QuestionsTable from "./QuestionsTable";
 import QuestionsInput from "./QuestionsInput";
 import QuestionsTablePresenter from "../../presenter/QuestionsTablePresenter";
 
-const mapQuestionStateToComponentState = questionState => ({
-    questions: question.sort(questionState.questions),
-    title: questionState.newQuestion.title,
-    text: questionState.newQuestion.text,
-    tags: questionState.newQuestion.tags
-});
+const mapQuestionStateToComponentState = state => {
+    return {
+        questions: state.questionState.questions,
+        title: state.questionState.newQuestion.title,
+        text: state.questionState.newQuestion.text,
+        tags: state.questionState.newQuestion.tags
+    };
+}
 
-export default class SmartQuestionsTable extends Component {
+function mapDispatchToProps(dispatch) {
+    return {
+        onCreate: QuestionsTablePresenter.onCreate,
+        onChange: QuestionsTablePresenter.onChange,
+        onEditQuestion: QuestionsTablePresenter.onEditQuestion,
+        onDeleteQuestion: QuestionsTablePresenter.onDeleteQuestion,
+        onUpvoteQuestion: QuestionsTablePresenter.onUpvoteQuestion,
+        onDownvoteQuestion: QuestionsTablePresenter.onDownvoteQuestion
+    };
+}
+
+class SmartQuestionsTable extends Component {
     constructor() {
         super();
-        this.state = mapQuestionStateToComponentState(question.state);
-        this.listener = questionState => this.setState(mapQuestionStateToComponentState(questionState));
-        question.addListener("changeQuestion", this.listener);
-    }
-
-    componentWillUnmount() {
-        question.removeListener("changeQuestion", this.listener);
     }
 
     render() {
@@ -33,22 +39,24 @@ export default class SmartQuestionsTable extends Component {
                 </h2>
 
                 <QuestionsInput
-                    title={this.state.title}
-                    text={this.state.text}
-                    tags={this.state.tags}
-                    onChange={QuestionsTablePresenter.onChange}
-                    onCreate={QuestionsTablePresenter.onCreate}
-                    onEditQuestion={QuestionsTablePresenter.onEditQuestion}
+                    title={this.props.title}
+                    text={this.props.text}
+                    tags={this.props.tags}
+                    onChange={this.props.onChange}
+                    onCreate={this.props.onCreate}
+                    onEditQuestion={this.props.onEditQuestion}
                 />
 
                 <QuestionsTable
-                    questions={this.state.questions}
-                    onAnswer={QuestionsTablePresenter.onAnswer}
-                    onDeleteQuestion={QuestionsTablePresenter.onDeleteQuestion}
-                    onUpvoteQuestion={QuestionsTablePresenter.onUpvoteQuestion}
-                    onDownvoteQuestion={QuestionsTablePresenter.onDownvoteQuestion}
+                    questions={this.props.questions}
+                    onAnswer={this.props.onAnswer}
+                    onDeleteQuestion={this.props.onDeleteQuestion}
+                    onUpvoteQuestion={this.props.onUpvoteQuestion}
+                    onDownvoteQuestion={this.props.onDownvoteQuestion}
                 />
             </div>
         );
     }
 }
+
+export default connect(mapQuestionStateToComponentState, mapDispatchToProps)(SmartQuestionsTable);
