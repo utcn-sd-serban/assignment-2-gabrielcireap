@@ -4,7 +4,7 @@ import { UPDATE } from "./voteActionTypes";
 export function addVote(question, answer, user, isUpvote) {
     
     return {
-        action: ADD_VOTE,
+        type: ADD_VOTE,
         payload: {
             question,
             answer,
@@ -16,7 +16,7 @@ export function addVote(question, answer, user, isUpvote) {
 
 export function update(vote) {
     return {
-        action: UPDATE,
+        type: UPDATE,
         payload: {
             vote
         }

@@ -1,10 +1,6 @@
-
 import React from "react";
-import user from "../../model/User";
-import question from "../../model/question";
-import answer from "../../model/answer";
 
-const AnswersTable = ({ answers, onEditAnswer, onDeleteAnswer, onUpvoteAnswer, onDownvoteAnswer }) => (
+const AnswersTable = ({ answers, onEditAnswer, onDeleteAnswer, onUpvoteAnswer, onDownvoteAnswer, userToString, questionToString }) => (
     <div>
         <table className="table" border="1">
             <thead>
@@ -26,15 +22,15 @@ const AnswersTable = ({ answers, onEditAnswer, onDeleteAnswer, onUpvoteAnswer, o
                     answers.map((answer, index) => (
                         <tr key={index}>
                             <td className="has-text-centered"> {answer.id} </td>
-                            <td className="has-text-centered"> {user.toString(answer.user)} </td>
-                            <td className="has-text-centered"> {question.toString(answer.question)}</td>
+                            <td className="has-text-centered"> {userToString(answer.user)} </td>
+                            <td className="has-text-centered"> {questionToString(answer.question)}</td>
                             <td className="has-text-centered"> {answer.text} </td>
                             <td className="has-text-centered"> {answer.creationDate} </td>
                             <td className="has-text-centered"> {answer.voteCount} </td>
-                            <td><button className="button is-link" onClick={() => onEditAnswer(answer.id)}> Edit </button></td>
-                            <td><button className="button is-warning" onClick={() => onDeleteAnswer(answer.id)}> Delete </button></td>
-                            <td><button className="button is-success" onClick={() => onUpvoteAnswer(answer.id)}> Upvote </button></td>
-                            <td><button className="button is-danger" onClick={() => onDownvoteAnswer(answer.id)}> Downvote </button></td>
+                            <td><button class="button is-link" onClick={() => onEditAnswer(answer.id)}> Edit </button></td>
+                            <td><button class="button is-warning" onClick={() => onDeleteAnswer(answer.id)}> Delete </button></td>
+                            <td><button class="button is-success" onClick={() => onUpvoteAnswer(answer.id)}> Upvote </button></td>
+                            <td><button class="button is-danger" onClick={() => onDownvoteAnswer(answer.id)}> Downvote </button></td>
                         </tr>
                     ))
                 }

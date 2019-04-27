@@ -1,31 +1,113 @@
 import { ADD_ANSWER } from "./answerActionTypes.js";
 import { CHANGE_NEW_ANSWER_PROPERTIES } from "./answerActionTypes.js";
-import { DELETE } from "./answerActionTypes.js";
-import { EDIT } from "./answerActionTypes.js";
-import { UPVOTE } from "./answerActionTypes.js";
-import { DOWNVOTE } from "./answerActionTypes.js";
-import user from "../User";
-import question from "../question";
+import { DELETE_ANSWER } from "./answerActionTypes.js";
+import { EDIT_ANSWER } from "./answerActionTypes.js";
+import { UPVOTE_ANSWER } from "./answerActionTypes.js";
+import { DOWNVOTE_ANSWER } from "./answerActionTypes.js";
 
 const initialState = {
     answers: [{
         id: 1,
-        user: user.state.users[0],
-        question: question.state.questions[0],
+        user: {
+            id: 1,
+            username: "user1",
+            password: "pass1",
+            email: "email1",
+            score: 0,
+            isAdmin: true,
+            isBanned: false,
+        },
+        question: {
+            id: 1,
+            user: {
+                id: 1,
+                username: "user1",
+                password: "pass1",
+                email: "email1",
+                score: 0,
+                isAdmin: true,
+                isBanned: false,
+            },
+            title: "title1",
+            text: "text1",
+            creationDate: new Date(Date.now()).toLocaleDateString(),
+            voteCount: 0,
+            tags: [{
+                id: 1,
+                name: "tag1"
+            }]
+        },
         text: "answer1",
         creationDate: "12/22/1997",
         voteCount: 0
     }, {
         id: 2,
-        user: user.state.users[0],
-        question: question.state.questions[0],
+        user: {
+            id: 1,
+            username: "user1",
+            password: "pass1",
+            email: "email1",
+            score: 0,
+            isAdmin: true,
+            isBanned: false,
+        },
+        question: {
+            id: 1,
+            user: {
+                id: 1,
+                username: "user1",
+                password: "pass1",
+                email: "email1",
+                score: 0,
+                isAdmin: true,
+                isBanned: false,
+            },
+            title: "title1",
+            text: "text1",
+            creationDate: new Date(Date.now()).toLocaleDateString(),
+            voteCount: 0,
+            tags: [{
+                id: 1,
+                name: "tag1"
+            }]
+        },
         text: "answer2",
         creationDate: "12/22/1997",
         voteCount: 0
     }, {
         id: 3,
-        user: user.state.users[0],
-        question: question.state.questions[2],
+        user: {
+            id: 1,
+            username: "user1",
+            password: "pass1",
+            email: "email1",
+            score: 0,
+            isAdmin: true,
+            isBanned: false,
+        },
+        question: {
+            id: 2,
+            user: {
+                id: 1,
+                username: "user1",
+                password: "pass1",
+                email: "email1",
+                score: 0,
+                isAdmin: true,
+                isBanned: false,
+            },
+            title: "ceva titlu",
+            text: "ceva text",
+            creationDate: new Date(Date.now()).toLocaleDateString(),
+            voteCount: 0,
+            tags: [{
+                id: 1,
+                name: "tag1"
+            }, {
+                id: 2,
+                name: "react"
+            }]
+        },
         text: "answer3",
         creationDate: "12/22/1997",
         voteCount: 2
@@ -46,16 +128,16 @@ function answerReducer(state = initialState, action) {
 
     switch (action.type) {
         case ADD_ANSWER:
-            return addAnswer(state, action.payload);
+            return sort(addAnswer(state, action.payload));
         case CHANGE_NEW_ANSWER_PROPERTIES:
             return changeNewAnswerProperty(state, action.payload);
-        case DELETE:
+        case DELETE_ANSWER:
             return deleteAnswer(state, action.payload);
-        case EDIT:
+        case EDIT_ANSWER:
             return editAnswer(state, action.payload);
-        case UPVOTE:
+        case UPVOTE_ANSWER:
             return upvote(state, action.payload);
-        case DOWNVOTE:
+        case DOWNVOTE_ANSWER:
             return downvote(action.payload);
     }
     return state;
@@ -149,6 +231,17 @@ function downvote(state, payload) {
         answers
     }
 
+    return newState;
+}
+
+function sort(state) {
+
+    let newAnswers = state.answers.concat([]);
+    newAnswers.sort((a, b) => (a.voteCount < b.voteCount) ? 1 : ((b.voteCount < a.voteCount) ? -1 : 0));
+    let newState = {
+        ...state,
+        answers: newAnswers
+    };
     return newState;
 }
 

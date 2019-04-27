@@ -1,57 +1,60 @@
 import React, { Component } from "react";
-import answer from "../../model/answer";
+import { connect } from "react-redux";
+import * as answerSelectors from "../../model/answer/answerSelectors";
 import AnswersTable from "./AnswersTable";
 import AnswersInput from "./AnswersInput";
 import AnswersTablePresenter from "../../presenter/AnswersTablePresenter";
-import question from "../../model/question";
+import { toString as userToString } from "../../model/user/userSelectors";
+import { toString as questionToString } from "../../model/question/questionSelectors";
 
-const mapAnswerStateToComponentState = (answerState, props) => ({
-    selectedQuestion: question.state.questions[props.match.params.id],
-    answers: answer.sort(answer.findByQuestion(question.state.questions[props.match.params.id])),
-    text: answerState.newAnswer.text
+const mapAnswerStateToComponentState = (state, props) => ({
+    selectedQuestion: state.questionState.questions[props.match.params.id],
+    answers: answerSelectors.findByQuestion(state.questionState.questions[props.match.params.id]),
+    text: state.answerState.newAnswer.text
 });
 
-export default class SmartAnswersTable extends Component {
+function mapDispatchToProps(dispatch) {
+    return {
+        onChange: AnswersTablePresenter.onChange,
+        onCreate: AnswersTablePresenter.onCreate,
+        onEditAnswer: AnswersTablePresenter.onEditAnswer,
+        onDeleteAnswer: AnswersTablePresenter.onDeleteAnswer,
+        onUpvoteAnswer: AnswersTablePresenter.onUpvoteAnswer,
+        onDownvoteAnswer: AnswersTablePresenter.onDownvoteAnswer
+    };
+}
+
+class SmartAnswersTable extends Component {
 
     constructor(props) {
         super(props);
-        this.state = mapAnswerStateToComponentState(answer.state, props);
-        this.listener = answerState => this.setState(mapAnswerStateToComponentState(answerState, this.props));
-        answer.addListener("changeAnswer", this.listener);
-    }
-
-    componentDidUpdate(prev) {
-        if (prev.match.params.id !== this.props.match.params.id) {
-            this.setState(mapAnswerStateToComponentState(answer.state, this.props));
-        }
-    }
-    
-    componentWillUnmount() {
-        answer.removeListener("changeAnswer", this.listener);
     }
 
     render() {
         return (
-
             <div>
                 <h2 className="title">
                     Answers
                 </h2>
                 <AnswersInput
-                    text={this.state.text}
-                    currentQuestion={this.state.selectedQuestion}
-                    onChange={AnswersTablePresenter.onChange}
-                    onCreate={AnswersTablePresenter.onCreate}
+                    text={this.props.text}
+                    currentQuestion={this.props.selectedQuestion}
+                    onChange={this.props.onChange}
+                    onCreate={this.props.onCreate}
                 />
 
                 <AnswersTable
-                    answers={this.state.answers}
-                    onEditAnswer={AnswersTablePresenter.onEditAnswer}
-                    onDeleteAnswer={AnswersTablePresenter.onDeleteAnswer}
-                    onUpvoteAnswer={AnswersTablePresenter.onUpvoteAnswer}
-                    onDownvoteAnswer={AnswersTablePresenter.onDownvoteAnswer}
+                    answers={this.props.answers}
+                    onEditAnswer={this.props.onEditAnswer}
+                    onDeleteAnswer={this.props.onDeleteAnswer}
+                    onUpvoteAnswer={this.props.onUpvoteAnswer}
+                    onDownvoteAnswer={this.props.onDownvoteAnswer}
+                    userToString={userToString}
+                    questionToString={questionToString}
                 />
             </div>
         );
     }
 }
+
+export default connect(mapAnswerStateToComponentState, mapDispatchToProps)(SmartAnswersTable);

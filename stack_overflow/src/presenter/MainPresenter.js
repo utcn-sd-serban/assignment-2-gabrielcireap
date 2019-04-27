@@ -1,5 +1,7 @@
 import QuestionsTablePresenter from "./QuestionsTablePresenter";
-import user from "../model/User";
+import * as userSelectors from "../model/user/userSelectors";
+import * as userActions from "../model/user/userActions";
+import store from "../model/store/store";
 
 class MainPresenter {
 
@@ -32,8 +34,8 @@ class MainPresenter {
     }
 
     onBan(userId) {
-        let selectedUser = user.findById(userId);
-        user.ban(selectedUser);
+        let selectedUser = userSelectors.findById(userId);
+        store.dispatch(userActions.ban(selectedUser));
     }
 }
 

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import QuestionsTable from "./QuestionsTable";
 import QuestionSearchPresenter from "../../presenter/QuestionSearchPresenter";
 import QuestionSearchByTitle from "./QuestionSearchByTitle";
+import { toString as userToString } from "../../model/user/userSelectors";
+import { toString as tagToString } from "../../model/tag/tagSelectors";
 
 const mapQuestionStateToComponentState = state => ({
     searchedQuestions: state.questionState.searchedQuestions
@@ -44,6 +46,8 @@ class SmartQuestionsSearchByTitle extends Component {
                     onDeleteQuestion={this.props.onDeleteQuestion}
                     onUpvoteQuestion={this.props.onUpvoteQuestion}
                     onDownvoteQuestion={this.props.onDownvoteQuestion}
+                    userToString={userToString}
+                    tagToString={tagToString}
                 />
             </div>
         );

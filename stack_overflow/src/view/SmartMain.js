@@ -1,49 +1,53 @@
-import question from "../model/question";
 import Main from "./Main";
-import user from "../model/User";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import MainPresenter from "../presenter/MainPresenter";
+import { toString as userToString } from "../model/user/userSelectors";
+import { toString as tagToString } from "../model/tag/tagSelectors";
 
-const mapMainStateToComponentState = (userState)=> ({
-    users: userState.users,
-    loggedUser: userState.loggedUser
+const mapMainStateToComponentState = (state)=> ({
+    users: state.userState.users,
+    loggedUser: state.userState.loggedUser,
+    questions: state.questionState.questions
 });
 
-const mapQuestionStateToComponentState = (questionState) => ({
-    questions: questionState.questions
-});
+function mapDispatchToProps(dispatch) {
+    return {
+        onBan: MainPresenter.onBan,
+        onAskQuestion: MainPresenter.onAskQuestion,
+        onSearchQuestionTitle: MainPresenter.onSearchQuestionTitle,
+        onSearchQuestionTag: MainPresenter.onSearchQuestionTag,
+        onAnswer: MainPresenter.onAnswer,
+        onDeleteQuestion: MainPresenter.onDeleteQuestion,
+        onUpvoteQuestion: MainPresenter.onUpvoteQuestion,
+        onDownvoteQuestion: MainPresenter.onDownvoteQuestion
+    };
+}
 
-export default class SmartMain extends Component {
+class SmartMain extends Component {
     constructor() {
         super();
-        this.userState = mapMainStateToComponentState(user.state);
-        this.questionState = mapQuestionStateToComponentState(question.state);
-        this.userListener = userState => this.setState(mapMainStateToComponentState(userState));
-        this.questionListener = questionState => this.setState(mapQuestionStateToComponentState(questionState));
-        user.addListener("changeUser", this.userListener);
-        question.addListener("changeQuestion", this.questionListener);
-    }
-
-    componentWillUnmount() {
-        user.removeListener("changeUser", this.userListener);
-        question.removeListener("changeQuestion", this.questionListener);
     }
 
     render() {
         return (
             <Main
-                questions={this.questionState.questions}
-                users={this.userState.users}
-                loggedUser={this.userState.loggedUser}
-                onBan={MainPresenter.onBan}
-                onAskQuestion={MainPresenter.onAskQuestion}
-                onSearchQuestionTitle={MainPresenter.onSearchQuestionTitle}
-                onSearchQuestionTag={MainPresenter.onSearchQuestionTag}
-                onAnswer={MainPresenter.onAnswer}
-                onDeleteQuestion={MainPresenter.onDeleteQuestion}
-                onUpvoteQuestion={MainPresenter.onUpvoteQuestion}
-                onDownvoteQuestion={MainPresenter.onDownvoteQuestion}
+                questions={this.props.questions}
+                users={this.props.users}
+                loggedUser={this.props.loggedUser}
+                onBan={this.props.onBan}
+                onAskQuestion={this.props.onAskQuestion}
+                onSearchQuestionTitle={this.props.onSearchQuestionTitle}
+                onSearchQuestionTag={this.props.onSearchQuestionTag}
+                onAnswer={this.props.onAnswer}
+                onDeleteQuestion={this.props.onDeleteQuestion}
+                onUpvoteQuestion={this.props.onUpvoteQuestion}
+                onDownvoteQuestion={this.props.onDownvoteQuestion}
+                userToString={userToString}
+                tagToString={tagToString}
             />
         );
     }
 }
+
+export default connect(mapMainStateToComponentState, mapDispatchToProps)(SmartMain);

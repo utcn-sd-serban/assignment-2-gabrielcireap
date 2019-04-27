@@ -1,40 +1,77 @@
 import { ADD_QUESTION } from "./questionActionTypes";
 import { CHANGE_NEW_QUESTION_PROPERTIES } from "./questionActionTypes";
-import { DELETE } from "./questionActionTypes";
-import { EDIT } from "./questionActionTypes";
+import { DELETE_QUESTION } from "./questionActionTypes";
+import { EDIT_QUESTION } from "./questionActionTypes";
 import { SEARCH_BY_TITLE } from "./questionActionTypes";
 import { SEARCH_BY_TAG } from "./questionActionTypes";
-import { UPVOTE } from "./questionActionTypes";
-import { DOWNVOTE } from "./questionActionTypes";
-import user from "../User";
-import tag from "../Tag";
+import { UPVOTE_QUESTION } from "./questionActionTypes";
+import { DOWNVOTE_QUESTION } from "./questionActionTypes";
 
 const initialState = {
     questions: [{
         id: 1,
-        user: user.state.users[0],
+        user: {
+            id: 1,
+            username: "user1",
+            password: "pass1",
+            email: "email1",
+            score: 0,
+            isAdmin: true,
+            isBanned: false,
+        },
         title: "title1",
         text: "text1",
         creationDate: new Date(Date.now()).toLocaleDateString(),
         voteCount: 0,
-        tags: [tag.state.tags[0]]
+        tags: [{
+            id: 1,
+            name: "tag1"
+        }]
     }, {
         id: 2,
-        user: user.state.users[0],
+        user: {
+            id: 1,
+            username: "user1",
+            password: "pass1",
+            email: "email1",
+            score: 0,
+            isAdmin: true,
+            isBanned: false,
+        },
         title: "ceva titlu",
         text: "ceva text",
         creationDate: new Date(Date.now()).toLocaleDateString(),
         voteCount: 0,
-        tags: [tag.state.tags[0], tag.state.tags[1]]
+        tags: [{
+            id: 1,
+            name: "tag1"
+        }, {
+            id: 2,
+            name: "react"
+        }]
     }, {
         id: 3,
-        user: user.state.users[0],
+        user: {
+            id: 1,
+            username: "user1",
+            password: "pass1",
+            email: "email1",
+            score: 0,
+            isAdmin: true,
+            isBanned: false,
+        },
         title: "title 2",
         text: "question 3 text",
         creationDate: new Date(Date.now()).toLocaleDateString(),
         voteCount: 0,
-        tags: [tag.state.tags[1], tag.state.tags[2]]
-        }],
+        tags: [{
+            id: 3,
+            name: "js"
+        }, {
+            id: 2,
+            name: "react"
+        }]
+    }],
 
     newQuestion: {
         id: "",
@@ -57,17 +94,17 @@ function questionReducer(state = initialState, action) {
             return addQuestion(state, action.payload);
         case CHANGE_NEW_QUESTION_PROPERTIES:
             return changeNewQuestionProperty(state, action.payload);
-        case DELETE:
+        case DELETE_QUESTION:
             return deleteQuestion(state, action.payload);
-        case EDIT:
-            return edit(state, action.payload);
+        case EDIT_QUESTION:
+            return editQuestion(state, action.payload);
         case SEARCH_BY_TITLE:
             return searchByTitle(state, action.payload);
         case SEARCH_BY_TAG:
             return searchByTag(state, action.payload);
-        case UPVOTE:
+        case UPVOTE_QUESTION:
             return upvote(state, action.payload);
-        case DOWNVOTE:
+        case DOWNVOTE_QUESTION:
             return downvote(action.payload);
     }
     return state;
@@ -116,7 +153,10 @@ function deleteQuestion(state, payload) {
     return newState;
 }
 
-function edit(state, payload) {
+function editQuestion(state, payload) {
+    console.log(state);
+    console.log(payload);
+    debugger;
     let oldQuestion = state.questions.filter(q => q.id == payload.question.id)[0];
     let index = state.questions.indexOf(oldQuestion);
     let questions = state.questions.concat([]);
@@ -168,7 +208,7 @@ function upvote(state, payload) {
 
     for (let i = 0; i < questions.length; i++) {
 
-        let questionUser = user.state.users.filter(u => questions[i].user.id === u.id)[0];
+        let questionUser = state.users.filter(u => questions[i].user.id === u.id)[0];
         if (i != index) {
             questions[i] = {
                 ...state.questions[i],
@@ -197,7 +237,7 @@ function downvote(state, payload) {
 
     for (let i = 0; i < questions.length; i++) {
 
-        let questionUser = user.state.users.filter(u => questions[i].user.id === u.id)[0];
+        let questionUser = state.users.filter(u => questions[i].user.id === u.id)[0];
         if (i != index) {
             questions[i] = {
                 ...state.questions[i],

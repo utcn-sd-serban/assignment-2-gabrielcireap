@@ -1,5 +1,3 @@
-import user from "../model/User";
-
 class UsersTablePresenter {
 
     onCreate() {

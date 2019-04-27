@@ -1,9 +1,8 @@
 import React from "react";
 import QuestionsTable from "./question/QuestionsTable";
-import SmartUsersTable from "./user/SmartUsersTable";
 import UsersTable from "./user/UsersTable";
 
-const Main = ({ questions, users, loggedUser, onAskQuestion, onSearchQuestionTitle, onSearchQuestionTag, onAnswer, onDeleteQuestion, onUpvoteQuestion, onDownvoteQuestion, onBan }) => (
+const Main = ({ questions, users, loggedUser, onAskQuestion, onSearchQuestionTitle, onSearchQuestionTag, onAnswer, onDeleteQuestion, onUpvoteQuestion, onDownvoteQuestion, onBan, userToString, tagToString }) => (
     <div className="container" className="has-background-light">
         <h1 className="title">
             Assignment 2
@@ -24,6 +23,8 @@ const Main = ({ questions, users, loggedUser, onAskQuestion, onSearchQuestionTit
             onDeleteQuestion={onDeleteQuestion}
             onUpvoteQuestion={onUpvoteQuestion}
             onDownvoteQuestion={onDownvoteQuestion}
+            userToString={userToString}
+            tagToString={tagToString}
         />
         <br />
 

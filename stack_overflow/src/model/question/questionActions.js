@@ -1,11 +1,11 @@
 import { ADD_QUESTION } from "./questionActionTypes.js";
 import { CHANGE_NEW_QUESTION_PROPERTIES } from "./questionActionTypes.js";
-import { DELETE } from "./questionActionTypes.js";
-import { EDIT } from "./questionActionTypes.js";
+import { DELETE_QUESTION } from "./questionActionTypes.js";
+import { EDIT_QUESTION } from "./questionActionTypes.js";
 import { SEARCH_BY_TITLE } from "./questionActionTypes.js";
 import { SEARCH_BY_TAG } from "./questionActionTypes.js";
-import { UPVOTE } from "./questionActionTypes.js";
-import { DOWNVOTE } from "./questionActionTypes.js";
+import { UPVOTE_QUESTION } from "./questionActionTypes.js";
+import { DOWNVOTE_QUESTION } from "./questionActionTypes.js";
 
 export function addQuestion(user, title, text, creationDate, voteCount, tags){
 
@@ -44,7 +44,7 @@ export function deleteQuestion(question){
 	};
 
 	return {
-		type: DELETE,
+        type: DELETE_QUESTION,
 		payload
 	};
 }
@@ -56,7 +56,7 @@ export function edit(question){
 	};
 
 	return {
-		type: EDIT,
+        type: EDIT_QUESTION,
 		payload
 	};
 }
@@ -93,7 +93,7 @@ export function upvote(question, count){
 	};
 
 	return {
-		type: UPVOTE,
+        type: UPVOTE_QUESTION,
 		payload
 	};
 }
@@ -107,7 +107,7 @@ export function downvote(question, count, score){
 	};
 
 	return {
-		type: DOWNVOTE,
+        type: DOWNVOTE_QUESTION,
 		payload
 	};
 }

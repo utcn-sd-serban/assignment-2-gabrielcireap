@@ -1,11 +1,9 @@
-import question from "../model/question";
-import user from "../model/User";
-import tag from "../model/Tag";
-import vote from "../model/Vote";
 import * as questionSelectors from "../model/question/questionSelectors";
 import * as questionActions from "../model/question/questionActions";
 import * as voteActions from "../model/vote/voteActions";
 import * as voteSelectors from "../model/vote/voteSelectors";
+import * as tagSelectors from "../model/tag/tagSelectors";
+import * as tagActions from "../model/tag/tagActions";
 import { updateScore } from "../model/user/userActions";
 import * as userSelectors from "../model/user/userSelectors";
 
@@ -19,7 +17,7 @@ class QuestionTablePresenter {
         let tags = createTags(newQuestion.tags);
 
         store.dispatch(questionActions.addQuestion(
-            userSelectors.getLoggedUser,
+            userSelectors.getLoggedUser(),
             newQuestion.title,
             newQuestion.text,
             new Date(Date.now()).toLocaleDateString(),
@@ -79,7 +77,7 @@ class QuestionTablePresenter {
         if (currentQuestion.user.username === loggedUser.username && currentQuestion.user.password === loggedUser.password) {
             window.alert("Cannot vote your own question!");
         } else {
-            let currentVote = voteSelectors.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
+            let currentVote = voteSelectors.findByQuestionId(currentQuestion.id, loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === true) {
@@ -92,7 +90,8 @@ class QuestionTablePresenter {
                 }
 
             } else {
-                store.dispatch(voteActions.addVote(currentQuestion, undefined, user.state.loggedUser, true));
+                let action = voteActions.addVote(currentQuestion, undefined, loggedUser, true);
+                store.dispatch(action);
                 store.dispatch(updateScore(currentQuestion.user, 5));
                 store.dispatch(questionActions.upvote(currentQuestion, 1));
             }
@@ -100,12 +99,13 @@ class QuestionTablePresenter {
     }
 
     onDownvoteQuestion(questionId) {
-        let currentQuestion = question.findById(questionId);
+        let currentQuestion = questionSelectors.findById(questionId);
+        let loggedUser = userSelectors.getLoggedUser();
 
-        if (currentQuestion.user.username === user.state.loggedUser.username && currentQuestion.user.password === user.state.loggedUser.password) {
+        if (currentQuestion.user.username === loggedUser.username && currentQuestion.user.password === loggedUser.password) {
             window.alert("Cannot vote your own question!");
         } else {
-            let currentVote = voteSelectors.findByQuestionId(currentQuestion.id, user.state.loggedUser.id);
+            let currentVote = voteSelectors.findByQuestionId(currentQuestion.id, loggedUser.id);
             if (currentVote.length > 0) {
 
                 if (currentVote[0].isUpvote === false) {
@@ -118,7 +118,7 @@ class QuestionTablePresenter {
                 }
 
             } else {
-                store.dispatch(voteActions.addVote(currentQuestion, undefined, user.state.loggedUser, false));
+                store.dispatch(voteActions.addVote(currentQuestion, undefined, loggedUser, false));
                 store.dispatch(updateScore(currentQuestion.user, -2));
                 store.dispatch(questionActions.downvote(currentQuestion, 1));
             }
@@ -132,9 +132,14 @@ function createTags(tags) {
     }
 
     let tagArray = tags.split(",");
-    tagArray = tagArray.filter(t => tag.isNew(t) === true);
-    tagArray = tagArray.map(t => tag.addTag(t));
+    tagArray = tagArray.filter(t => isNew(t, store.getState().tagState) === true);
+    tagArray = tagArray.map(t => tagActions.addTag(t));
     return tagArray;
+}
+
+function isNew(tag, tagState) {
+    let tagList = tagState.tags.filter(t => t.name == tag.name);
+    return tagList.length > 0 ? false : true;
 }
 
 const questionTablePresenter = new QuestionTablePresenter();

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import QuestionsTable from "./QuestionsTable";
 import QuestionsInput from "./QuestionsInput";
 import QuestionsTablePresenter from "../../presenter/QuestionsTablePresenter";
+import { toString as userToString } from "../../model/user/userSelectors";
+import { toString as tagToString} from "../../model/tag/tagSelectors";
 
 const mapQuestionStateToComponentState = state => {
     return {
@@ -17,6 +19,7 @@ function mapDispatchToProps(dispatch) {
     return {
         onCreate: QuestionsTablePresenter.onCreate,
         onChange: QuestionsTablePresenter.onChange,
+        onAnswer: QuestionsTablePresenter.onAnswer,
         onEditQuestion: QuestionsTablePresenter.onEditQuestion,
         onDeleteQuestion: QuestionsTablePresenter.onDeleteQuestion,
         onUpvoteQuestion: QuestionsTablePresenter.onUpvoteQuestion,
@@ -53,6 +56,8 @@ class SmartQuestionsTable extends Component {
                     onDeleteQuestion={this.props.onDeleteQuestion}
                     onUpvoteQuestion={this.props.onUpvoteQuestion}
                     onDownvoteQuestion={this.props.onDownvoteQuestion}
+                    userToString={userToString}
+                    tagToString={tagToString}
                 />
             </div>
         );

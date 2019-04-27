@@ -1,25 +1,26 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import LoginPresenter from "../../presenter/LoginPresenter";
-import user from "../../model/User";
 import Login from "./Login";
 
-const mapUserStateToComponentState = userState => ({
-    username: userState.newUser.username,
-    password: userState.newUser.password,
-    email: userState.newUser.email
+const mapUserStateToComponentState = state => ({
+    username: state.userState.newUser.username,
+    password: state.userState.newUser.password,
+    email: state.userState.newUser.email
 });
 
-export default class SmartLoginTable extends Component {
+function mapDispatchToProps(dispatch) {
+    return {
+        onChange: LoginPresenter.onChange,
+        onLogin: LoginPresenter.onLogin,
+        onRegister: LoginPresenter.onRegister
+    };
+}
+
+class SmartLoginTable extends Component {
 
     constructor() {
         super();
-        this.state = mapUserStateToComponentState(user.state);
-        this.listener = userState => this.setState(mapUserStateToComponentState(userState));
-        user.addListener("changeUser", this.listener);
-    }
-
-    componentWillUnmount() {
-        user.removeListener("changeUser", this.listener);
     }
 
     render() {
@@ -30,14 +31,16 @@ export default class SmartLoginTable extends Component {
                     Login
                 </h2>
                 <Login
-                    username={this.state.username}
-                    password={this.state.password}
-                    email={this.state.email}
-                    onChange={LoginPresenter.onChange}
-                    onLogin={LoginPresenter.onLogin}
-                    onRegister={LoginPresenter.onRegister}
+                    username={this.props.username}
+                    password={this.props.password}
+                    email={this.props.email}
+                    onChange={this.props.onChange}
+                    onLogin={this.props.onLogin}
+                    onRegister={this.props.onRegister}
                 />
             </div>
         );
     }
 }
+
+export default connect(mapUserStateToComponentState, mapDispatchToProps)(SmartLoginTable);

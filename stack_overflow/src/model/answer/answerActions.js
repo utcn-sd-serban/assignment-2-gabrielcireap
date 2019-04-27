@@ -1,9 +1,9 @@
 import { ADD_ANSWER } from "./answerActionTypes.js";
 import { CHANGE_NEW_ANSWER_PROPERTIES } from "./answerActionTypes.js";
-import { DELETE } from "./answerActionTypes.js";
-import { EDIT } from "./answerActionTypes.js";
-import { UPVOTE } from "./answerActionTypes.js";
-import { DOWNVOTE } from "./answerActionTypes.js";
+import { DELETE_ANSWER } from "./answerActionTypes.js";
+import { EDIT_ANSWER } from "./answerActionTypes.js";
+import { UPVOTE_ANSWER } from "./answerActionTypes.js";
+import { DOWNVOTE_ANSWER } from "./answerActionTypes.js";
 
 export function addAnswer(user, question, text, creationDate, voteCount) {
 
@@ -41,7 +41,7 @@ export function deleteAnswer(answer) {
     };
 
     return {
-        type: DELETE,
+        type: DELETE_ANSWER,
         payload
     };
 }
@@ -49,24 +49,12 @@ export function deleteAnswer(answer) {
 export function editAnswer(answer) {
 
     let payload = {
-        answer
+        answer: answer
     };
 
     return {
-        type: EDIT,
-        payload
-    };
-}
-
-export function searchByTitle(title) {
-
-    let payload = {
-        title
-    };
-
-    return {
-        type: SEARCH_BY_TITLE,
-        payload
+        type: EDIT_ANSWER,
+        payload: payload
     };
 }
 
@@ -78,7 +66,7 @@ export function upvote(answer, count) {
     };
 
     return {
-        type: UPVOTE,
+        type: UPVOTE_ANSWER,
         payload
     };
 }
@@ -91,7 +79,7 @@ export function downvote(answer, count) {
     };
 
     return {
-        type: DOWNVOTE,
+        type: DOWNVOTE_ANSWER,
         payload
     };
 }

@@ -2,6 +2,7 @@ import { ADD_USER } from "./userActionTypes";
 import { CHANGE_NEW_USER_PROPERTY } from "./userActionTypes";
 import { UPDATE_SCORE } from "./userActionTypes";
 import { BAN } from "./userActionTypes";
+import { LOG_USER } from "./userActionTypes";
 
 export function addUser(username, password, email, score, isAdmin, isBanned) {
 
@@ -52,4 +53,12 @@ export function ban(user) {
         type: BAN,
         payload: payload
     }
+}
+
+export function logUser(user) {
+    let payload = { user: user };
+    return {
+        type: LOG_USER,
+        payload
+    };
 }

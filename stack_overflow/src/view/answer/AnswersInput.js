@@ -1,4 +1,3 @@
-
 import React from "react";
 
 const AnswersInput = ({ text, currentQuestion, onChange, onCreate }) => (
@@ -6,7 +5,7 @@ const AnswersInput = ({ text, currentQuestion, onChange, onCreate }) => (
 
         <div className="column is-one-quarter">
             <label className="label"> Text </label>
-            <input value={text} onChange={e => onChange("text", e.target.value)} class="input" type="text" placeholder="Text input" />
+            <input className="input" value={text} onChange={e => onChange("text", e.target.value)}  type="text" placeholder="Text input" />
         </div>
 
         <div className="control">

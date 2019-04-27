@@ -2,6 +2,7 @@ import { ADD_USER } from "./userActionTypes";
 import { CHANGE_NEW_USER_PROPERTY } from "./userActionTypes";
 import { UPDATE_SCORE } from "./userActionTypes";
 import { BAN } from "./userActionTypes";
+import { LOG_USER } from "./userActionTypes";
 
 const initialState = {
     users: [{
@@ -55,6 +56,8 @@ function userReducer(state = initialState, action) {
             return updateScore(state, action.payload);
         case BAN:
             return ban(state, action.payload);
+        case LOG_USER:
+            return logUser(state, action.payload);
     }
     return state;
 };
@@ -122,6 +125,14 @@ function ban(state, payload) {
     let newState = {
         ...state,
         users: users
+    }
+    return newState;
+}
+
+function logUser(state, payload) {
+    let newState = {
+        ...state,
+        loggedUser: payload.user
     }
     return newState;
 }

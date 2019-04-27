@@ -9,8 +9,8 @@
     "\\src\\model\\tag",
     "\\src\\model\\user",
     "\\src\\view",
-    "\\src\\view\\question"
+    "\\src\\view\\answer"
   ],
-  "SelectedNode": "\\src\\view\\question\\SmartQuestionSearchByTitle.js",
+  "SelectedNode": "\\src\\model\\user\\userReducer.js",
   "PreviewInSolutionExplorer": false
 }
