@@ -1,5 +1,5 @@
 import { ADD_VOTE } from "./voteActionTypes";
-import { UPDATE } from "./voteActionTypes";
+import { UPDATE_VOTE } from "./voteActionTypes";
 
 const initialState = {
     votes: [],
@@ -10,7 +10,7 @@ function voteReducer(state = initialState, action) {
     switch (action.type) {
         case ADD_VOTE:
             return addVote(state, action.payload);
-        case UPDATE:
+        case UPDATE_VOTE:
             return update(state, action.payload);
     }
     return state;

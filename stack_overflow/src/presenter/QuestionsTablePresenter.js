@@ -12,9 +12,17 @@ import store from "../model/store/store";
 class QuestionTablePresenter {
     
     onCreate() {
-
         let newQuestion = questionSelectors.getNewQuestion();
-        let tags = createTags(newQuestion.tags);
+        let tags;
+        let questionTags = [];
+
+        if (newQuestion.tags.length === 0) {
+            tags = [];
+        } else {
+            tags = newQuestion.tags.split(",").filter(tag => tagSelectors.isNew(tag) === true);
+            tags.forEach(tag => store.dispatch(tagActions.addTag(tag)));
+            tags.forEach(tag => questionTags.push(createTag(tag)));
+        }
 
         store.dispatch(questionActions.addQuestion(
             userSelectors.getLoggedUser(),
@@ -22,7 +30,7 @@ class QuestionTablePresenter {
             newQuestion.text,
             new Date(Date.now()).toLocaleDateString(),
             0,
-            tags
+            questionTags
         ));
         
         store.dispatch(questionActions.changeNewQuestionProperty("title", ""));
@@ -126,20 +134,11 @@ class QuestionTablePresenter {
     }
 }
 
-function createTags(tags) {
-    if (tags.length === 0) {
-        return [];
-    }
-
-    let tagArray = tags.split(",");
-    tagArray = tagArray.filter(t => isNew(t, store.getState().tagState) === true);
-    tagArray = tagArray.map(t => tagActions.addTag(t));
-    return tagArray;
-}
-
-function isNew(tag, tagState) {
-    let tagList = tagState.tags.filter(t => t.name == tag.name);
-    return tagList.length > 0 ? false : true;
+function createTag(tag) {
+    return {
+        id: "",
+        name: tag
+    };
 }
 
 const questionTablePresenter = new QuestionTablePresenter();

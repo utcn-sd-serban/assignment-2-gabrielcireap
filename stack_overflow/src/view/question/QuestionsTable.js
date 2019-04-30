@@ -24,11 +24,11 @@ const QuestionsTable = ({ questions, onAnswer, onDeleteQuestion, onUpvoteQuestio
                         <tr key={index}>
                             <td className="has-text-centered"> {question.id} </td>
                             <td className="has-text-centered"> {userToString(question.user)} </td>
-                            <td className="has-text-centered"> {question.title} </td>
-                            <td className="has-text-centered"> {question.text} </td>
+                            <td> {question.title} </td>
+                            <td> {question.text} </td>
                             <td className="has-text-centered"> {question.creationDate} </td>
                             <td className="has-text-centered"> {question.voteCount} </td>
-                            <td className="has-text-centered"> {tagToString(question.tags)} </td>
+                            <td> {tagToString(question.tags)} </td>
                             <td><button className="button is-link" onClick={() => onAnswer(index)}> Answer </button></td>
                             <td><button className="button is-warning" onClick={() => onDeleteQuestion(question.id)}> Delete </button></td>
                             <td><button className="button is-success" onClick={() => onUpvoteQuestion(question.id)}> Upvote </button></td>

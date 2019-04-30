@@ -105,7 +105,7 @@ function questionReducer(state = initialState, action) {
         case UPVOTE_QUESTION:
             return upvote(state, action.payload);
         case DOWNVOTE_QUESTION:
-            return downvote(action.payload);
+            return downvote(state, action.payload);
     }
     return state;
 };
@@ -205,23 +205,10 @@ function searchByTag(state, payload) {
 function upvote(state, payload) {
     let index = state.questions.indexOf(payload.question);
     let questions = state.questions.concat([]);
-
-    for (let i = 0; i < questions.length; i++) {
-
-        let questionUser = state.users.filter(u => questions[i].user.id === u.id)[0];
-        if (i != index) {
-            questions[i] = {
-                ...state.questions[i],
-                user: questionUser
-            };
-        } else {
-            questions[index] = {
-                ...state.questions[index],
-                user: questionUser,
-                voteCount: state.questions[index].voteCount + payload.count
-            };
-        }
-    }
+    questions[index] = {
+        ...questions[index],
+        voteCount: state.questions[index].voteCount + payload.count
+    };
 
     let newState = {
         ...state,
@@ -234,23 +221,10 @@ function upvote(state, payload) {
 function downvote(state, payload) {
     let index = state.questions.indexOf(payload.question);
     let questions = state.questions.concat([]);
-
-    for (let i = 0; i < questions.length; i++) {
-
-        let questionUser = state.users.filter(u => questions[i].user.id === u.id)[0];
-        if (i != index) {
-            questions[i] = {
-                ...state.questions[i],
-                user: questionUser
-            };
-        } else {
-            questions[index] = {
-                ...state.questions[index],
-                user: questionUser,
-                voteCount: state.questions[index].voteCount - payload.count
-            };
-        }
-    }
+    questions[index] = {
+        ...questions[index],
+        voteCount: state.questions[index].voteCount - payload.count
+    };
 
     let newState = {
         ...state,

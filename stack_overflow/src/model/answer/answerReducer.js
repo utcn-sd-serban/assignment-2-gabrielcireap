@@ -132,13 +132,13 @@ function answerReducer(state = initialState, action) {
         case CHANGE_NEW_ANSWER_PROPERTIES:
             return changeNewAnswerProperty(state, action.payload);
         case DELETE_ANSWER:
-            return deleteAnswer(state, action.payload);
+            return sort(deleteAnswer(state, action.payload));
         case EDIT_ANSWER:
             return editAnswer(state, action.payload);
         case UPVOTE_ANSWER:
-            return upvote(state, action.payload);
+            return sort(upvote(state, action.payload));
         case DOWNVOTE_ANSWER:
-            return downvote(action.payload);
+            return sort(downvote(state, action.payload));
     }
     return state;
 };

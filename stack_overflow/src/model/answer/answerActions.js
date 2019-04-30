@@ -75,7 +75,7 @@ export function downvote(answer, count) {
 
     let payload = {
         answer,
-        count,
+        count
     };
 
     return {

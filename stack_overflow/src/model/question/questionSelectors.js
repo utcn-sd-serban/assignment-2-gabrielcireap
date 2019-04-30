@@ -1,5 +1,6 @@
 import store from "../store/store";
 import { toString as userToString } from "../../model/user/userSelectors";
+
 export function getNewQuestion() {
     return store.getState().questionState.newQuestion;
 }

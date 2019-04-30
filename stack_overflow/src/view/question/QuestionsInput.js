@@ -5,17 +5,17 @@ const QuestionsInput = ({ title, text, tags, onChange, onCreate, onEditQuestion 
 
         <div className="column is-one-quarter">
             <label className="label"> Title </label>
-            <input value={title} onChange={e => onChange("title", e.target.value)} class="input" type="text" placeholder="Text input" />
+            <input value={title} onChange={e => onChange("title", e.target.value)} className="input" type="text" placeholder="Text input" />
         </div>
 
         <div className="column is-one-quarter">
             <label className="label"> Text </label>
-            <input value={text} onChange={e => onChange("text", e.target.value)} class="input" type="text" placeholder="Text input" />
+            <input value={text} onChange={e => onChange("text", e.target.value)} className="input" type="text" placeholder="Text input" />
         </div>
 
         <div className="column is-one-quarter">
             <label className="label"> Tags/Id </label>
-            <input value={tags} onChange={e => onChange("tags", e.target.value)} class="input" type="text" placeholder="Text input" />
+            <input value={tags} onChange={e => onChange("tags", e.target.value)} className="input" type="text" placeholder="Text input" />
         </div>
         
         <div class="control">
